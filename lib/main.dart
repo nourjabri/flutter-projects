@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zamazam/view/homeuser.dart';
+import 'package:zamazam/view/login/login.dart';
 import 'package:zamazam/view/splash.dart';
 
 void main() {
@@ -11,6 +14,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: Splash());
+    return ScreenUtilInit(
+      designSize: Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      child: MaterialApp(debugShowCheckedModeBanner: false, home: Login()),
+    );
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:zamazam/view/welocmpage.dart';
 
 class FourOnboarding extends StatelessWidget {
-  final inidcatorcontroller = PageController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,18 +24,23 @@ class FourOnboarding extends StatelessWidget {
               style: TextStyle(color: Color(0xff625D5D), fontSize: 14),
             ),
             Container(
-              child: Center(
-                child: InkWell(
-                  onTap: () {},
+              width: 318,
+              height: 60,
+              decoration: BoxDecoration(color: Color(0xff5DCCFC)),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Welocmpage()),
+                  );
+                },
+                child: Center(
                   child: Text(
                     "Get Started",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
-              width: 318,
-              height: 60,
-              decoration: BoxDecoration(color: Color(0xff5DCCFC)),
             ),
           ],
         ),

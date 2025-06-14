@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:zamazam/view/onboarding/four_onboarding.dart';
 
 class ThirdOnboarding extends StatelessWidget {
-  final inidcatorcontroller = PageController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,20 +24,20 @@ class ThirdOnboarding extends StatelessWidget {
               style: TextStyle(color: Color(0xff625D5D), fontSize: 14),
             ),
             Container(
-              child: Center(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => FourOnboarding()),
-                    );
-                  },
-                  child: Text("Next", style: TextStyle(color: Colors.white)),
-                ),
-              ),
               width: 318,
               height: 60,
               decoration: BoxDecoration(color: Color(0xff5DCCFC)),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FourOnboarding()),
+                  );
+                },
+                child: Center(
+                  child: Text("Next", style: TextStyle(color: Colors.white)),
+                ),
+              ),
             ),
           ],
         ),
