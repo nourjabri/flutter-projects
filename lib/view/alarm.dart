@@ -29,6 +29,8 @@ Future<void> scheduleAlarm(DateTime scheduledTime, int id, String title) async {
       android: AndroidNotificationDetails(
         'alarm_channel',
         'Alarms',
+        playSound: true,
+        sound: RawResourceAndroidNotificationSound('Alarm sound'),
         importance: Importance.max,
         priority: Priority.high,
       ),
@@ -65,7 +67,7 @@ class _AlarmPageState extends State<AlarmPage> {
         picked.minute,
       );
 
-      await scheduleAlarm(scheduledDate, 0, 'Alarm'); 
+      await scheduleAlarm(scheduledDate, 0, 'Alarm');
     }
   }
 
