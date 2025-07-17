@@ -10,10 +10,18 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
-  bool showExtraImages = false;
-  void toggleImages() {
+  bool showExtraImagesTasbih = false;
+  bool showExtraImagesKhatma = false;
+
+  void toggleImagesTasbih() {
     setState(() {
-      showExtraImages = !showExtraImages;
+      showExtraImagesTasbih = !showExtraImagesTasbih;
+    });
+  }
+
+  void toggleImagesKhatma() {
+    setState(() {
+      showExtraImagesKhatma = !showExtraImagesKhatma;
     });
   }
 
@@ -50,14 +58,17 @@ class _HomescreenState extends State<Homescreen> {
               decoration: BoxDecoration(
                   color: Appcolor().sevencolor,
                   borderRadius: BorderRadius.circular(8)),
-              child: Text(
-                "المستخدم عند الفجر يعرض فقط\n الأوراد و الختم الفجرية ،\n و ما بقي من اليوم يعرض الأوراد و\n الختم الاخرى",
+              child: Center(
+                child: Text(
+                  "المستخدم عند الفجر يعرض فقط\n الأوراد و الختم الفجرية ،\n و ما بقي من اليوم يعرض الأوراد و\n الختم الاخرى",
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
             SizedBox(height: 40),
             Container(
               width: 348.w,
-              height: 122.h,
+              height: 150.h,
               color: Appcolor().sixcolor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -66,7 +77,7 @@ class _HomescreenState extends State<Homescreen> {
                   Column(
                     children: [
                       GestureDetector(
-                        onTap: toggleImages,
+                        onTap: toggleImagesTasbih,
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
@@ -74,19 +85,21 @@ class _HomescreenState extends State<Homescreen> {
                           ),
                           child: Column(
                             children: [
-                              SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child: Image.asset(
-                                    "assets/images/tasbih.png",
-                                  )),
+                              Center(
+                                child: SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child: Image.asset(
+                                      "assets/images/tasbih.png",
+                                    )),
+                              ),
                               Text("تسبيح"),
                             ],
                           ),
                         ),
                       ),
                       const SizedBox(height: 20),
-                      if (showExtraImages) ...[
+                      if (showExtraImagesTasbih) ...[
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
@@ -95,8 +108,8 @@ class _HomescreenState extends State<Homescreen> {
                           child: Column(
                             children: [
                               SizedBox(
-                                  width: 30,
-                                  height: 30,
+                                  width: 50,
+                                  height: 50,
                                   child: Image.asset("assets/images/zikr.png")),
                               Text("جلسة ذكر"),
                             ],
@@ -111,8 +124,8 @@ class _HomescreenState extends State<Homescreen> {
                           child: Column(
                             children: [
                               SizedBox(
-                                  width: 30,
-                                  height: 30,
+                                  width: 50,
+                                  height: 50,
                                   child: Image.asset(
                                       "assets/images/compitition.png")),
                               Text("مسابقة ذكر"),
@@ -125,7 +138,7 @@ class _HomescreenState extends State<Homescreen> {
                   Column(
                     children: [
                       GestureDetector(
-                        onTap: toggleImages,
+                        onTap: toggleImagesKhatma,
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
@@ -133,76 +146,20 @@ class _HomescreenState extends State<Homescreen> {
                           ),
                           child: Column(
                             children: [
-                              SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child: Image.asset("assets/images/sura.png")),
-                              Text("سورة"),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      if (showExtraImages) ...[
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: Appcolor().sevencolor,
-                          ),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child:
-                                      Image.asset("assets/images/private.png")),
-                              Text("ختمة خاصة"),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: Appcolor().sevencolor,
-                          ),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child:
-                                      Image.asset("assets/images/public.png")),
-                              Text("ختمة عامة"),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      GestureDetector(
-                        onTap: toggleImages,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: Appcolor().sevencolor,
-                          ),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child:
-                                      Image.asset("assets/images/khatma.png")),
+                              Center(
+                                child: SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child: Image.asset(
+                                        "assets/images/khatma.png")),
+                              ),
                               Text("ختمة"),
                             ],
                           ),
                         ),
                       ),
                       const SizedBox(height: 20),
-                      if (showExtraImages) ...[
+                      if (showExtraImagesKhatma) ...[
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
@@ -211,8 +168,8 @@ class _HomescreenState extends State<Homescreen> {
                           child: Column(
                             children: [
                               SizedBox(
-                                  width: 30,
-                                  height: 30,
+                                  width: 50,
+                                  height: 50,
                                   child:
                                       Image.asset("assets/images/private.png")),
                               Text("ختمة خاصة"),
@@ -228,8 +185,8 @@ class _HomescreenState extends State<Homescreen> {
                           child: Column(
                             children: [
                               SizedBox(
-                                  width: 30,
-                                  height: 30,
+                                  width: 50,
+                                  height: 50,
                                   child:
                                       Image.asset("assets/images/public.png")),
                               Text("ختمة عامة"),
@@ -246,8 +203,55 @@ class _HomescreenState extends State<Homescreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Appcolor().sixcolor,
         onPressed: () {
-          showBottomSheet(context: context, builder: (context) => Text("data"));
+          showModalBottomSheet(
+            context: context,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            ),
+            backgroundColor: Appcolor().sixcolor,
+            builder: (context) {
+              return Container(
+                width: 400.w,
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: "النية",
+                          hintStyle: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: "بداية الختمة",
+                          hintStyle: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: "نهاية الختمة",
+                          hintStyle: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text("إضافة"),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
         },
         child: Icon(
           Icons.add,
