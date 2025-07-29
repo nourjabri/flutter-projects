@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:serapp/home.dart';
 
 class SplashSCreen extends StatefulWidget {
@@ -27,6 +28,7 @@ class _SplashSCreenState extends State<SplashSCreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        width: 400.w,
         decoration: BoxDecoration(
           image: DecorationImage(image: AssetImage("assets/images/splash.png")),
         ),

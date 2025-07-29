@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:serapp/khtmafunc/khtmaparts.dart';
+import 'package:serapp/khtmafunc/privatekhtma.dart';
 import 'package:serapp/khtmafunc/publickhtma.dart';
 import 'package:serapp/theme/colors.dart';
+import 'package:serapp/view/compition.dart';
+import 'package:serapp/view/zikar.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -13,6 +17,7 @@ class Homescreen extends StatefulWidget {
 class _HomescreenState extends State<Homescreen> {
   bool showExtraImagesTasbih = false;
   bool showExtraImagesKhatma = false;
+  bool showExtraImagesSura = false;
   String? dropvalue;
 
   void toggleImagesTasbih() {
@@ -22,6 +27,12 @@ class _HomescreenState extends State<Homescreen> {
   }
 
   void toggleImagesKhatma() {
+    setState(() {
+      showExtraImagesKhatma = !showExtraImagesKhatma;
+    });
+  }
+
+  void toggleImagesSura() {
     setState(() {
       showExtraImagesKhatma = !showExtraImagesKhatma;
     });
@@ -95,15 +106,15 @@ class _HomescreenState extends State<Homescreen> {
                             height: 80,
                             padding: EdgeInsets.only(top: 8),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
+                              borderRadius: BorderRadius.circular(40),
                               color: Appcolor().sevencolor,
                             ),
                             child: Column(
                               children: [
                                 Center(
                                   child: SizedBox(
-                                    width: 30,
-                                    height: 30,
+                                    width: 40,
+                                    height: 40,
                                     child: Image.asset(
                                       "assets/images/tasbih.png",
                                     ),
@@ -129,28 +140,38 @@ class _HomescreenState extends State<Homescreen> {
                               borderRadius: BorderRadius.circular(40),
                               color: Appcolor().sevencolor,
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Center(
-                                  child: SizedBox(
-                                    width: 30,
-                                    height: 30,
-                                    child: Image.asset(
-                                      "assets/images/zikr.png",
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CompitionScreen(),
+                                  ),
+                                );
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Center(
+                                    child: SizedBox(
+                                      width: 30,
+                                      height: 30,
+                                      child: Image.asset(
+                                        "assets/images/zikr.png",
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  "جلسة ذكر",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: "H-ALHFHAF",
+                                  Text(
+                                    "جلسة ذكر",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: "H-ALHFHAF",
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -161,32 +182,43 @@ class _HomescreenState extends State<Homescreen> {
                               borderRadius: BorderRadius.circular(40),
                               color: Appcolor().sevencolor,
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Center(
-                                  child: SizedBox(
-                                    width: 30,
-                                    height: 30,
-                                    child: Image.asset(
-                                      "assets/images/compitition.png",
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ZikarScreen(),
+                                  ),
+                                );
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Center(
+                                    child: SizedBox(
+                                      width: 30,
+                                      height: 30,
+                                      child: Image.asset(
+                                        "assets/images/compitition.png",
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const Text(
-                                  "مسابقة ذكر",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: "H-ALHFHAF",
+                                  const Text(
+                                    "مسابقة ذكر",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: "H-ALHFHAF",
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ],
                       ],
                     ),
+
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -237,8 +269,7 @@ class _HomescreenState extends State<Homescreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        Publickhtma(type: 'priavte'),
+                                    builder: (context) => PrivateKhtma(),
                                   ),
                                 );
                               },
