@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:serapp/theme/colors.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BottomInfromation extends StatefulWidget {
   const BottomInfromation({super.key});
@@ -42,28 +44,33 @@ class _BottomInfromationState extends State<BottomInfromation> {
                       textAlign: TextAlign.right,
                       style: TextStyle(color: Colors.white),
                     ),
-                    DropdownMenu(
+
+                    DropdownMenu<String>(
+                      initialSelection: nihavalue,
+                      onSelected: (String? value) {
+                        setState(() {
+                          nihavalue = value;
+                        });
+                      },
                       textStyle: TextStyle(color: Appcolor().sevencolor),
-                      dropdownMenuEntries: <DropdownMenuEntry>[
-                        DropdownMenuEntry(value: nihavalue, label: 'قضاءحاجة'),
+                      dropdownMenuEntries: const [
+                        DropdownMenuEntry(value: 'قضاءحاجة', label: 'قضاءحاجة'),
+                        DropdownMenuEntry(value: 'تفريج هم', label: 'تفريج هم'),
                         DropdownMenuEntry(
-                          value: nihavalue,
-                          label: '  تفريج هم ',
-                        ),
-                        DropdownMenuEntry(
-                          value: nihavalue,
+                          value: 'على روح مسلم',
                           label: 'على روح مسلم',
                         ),
                         DropdownMenuEntry(
-                          value: nihavalue,
-                          label: 'شفاء مريض ',
+                          value: 'شفاء مريض',
+                          label: 'شفاء مريض',
                         ),
                         DropdownMenuEntry(
-                          value: nihavalue,
-                          label: 'تيسير أمر ',
+                          value: 'تيسير أمر',
+                          label: 'تيسير أمر',
                         ),
                       ],
                     ),
+
                     const SizedBox(height: 30),
 
                     Column(
@@ -100,7 +107,7 @@ class _BottomInfromationState extends State<BottomInfromation> {
                           },
                           child: Container(
                             width: 266.w,
-                            height: 40.h,
+                            height: 50.h,
                             padding: EdgeInsets.all(12),
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -109,8 +116,8 @@ class _BottomInfromationState extends State<BottomInfromation> {
                             ),
                             child: Text(
                               startDate != null && endDate != null
-                                  ? 'من ${startDate!.toLocal().toString().split(' ')[0]} إلى ${endDate!.toLocal().toString().split(' ')[0]}'
-                                  : '  ',
+                                  ? 'من ${DateFormat('yyyy/MM/dd').format(startDate!)} إلى ${DateFormat('yyyy/MM/dd').format(endDate!)}'
+                                  : '',
                               style: TextStyle(fontSize: 16),
                             ),
                           ),
@@ -118,21 +125,6 @@ class _BottomInfromationState extends State<BottomInfromation> {
                       ],
                     ),
 
-                    DropdownButton<int>(
-                      hint: const Text('اختر عدد الأشخاص'),
-                      value: numberOfPeople,
-                      onChanged: (value) {
-                        // setState()(() {
-                        //   numberOfPeople = value;
-                        // });
-                      },
-                      items: List.generate(5, (index) => index + 1).map((num) {
-                        return DropdownMenuItem(
-                          value: num,
-                          child: Text('$num شخص'),
-                        );
-                      }).toList(),
-                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -154,39 +146,25 @@ class _BottomInfromationState extends State<BottomInfromation> {
                       ],
                     ),
 
-                    TextButton(
-                      onPressed: () {},
-                      child: Container(
-                        width: 123.w,
-                        height: 30.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: Appcolor().firstcolor,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "مشاركة",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            Icon(Icons.share, color: Colors.white),
-                          ],
-                        ),
-                      ),
-                    ),
-
                     MaterialButton(
                       onPressed: () async {
                         final userId =
                             Supabase.instance.client.auth.currentUser?.id;
+                        if (nihavalue == null ||
+                            startDate == null ||
+                            endDate == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('يرجى تعبئة جميع الحقول')),
+                          );
+                          return;
+                        }
 
                         final response = await Supabase.instance.client
                             .from('public_khatmas')
                             .insert({
                               'niyyah': nihavalue,
-                              'start_date': startDate?.toIso8601String(),
-                              'end_date': endDate?.toIso8601String(),
+                              'start_date': startDate?.toString(),
+                              'end_date': endDate?.toString(),
                               'people_count': numberOfPeople,
                               'is_fajria': isFajria,
                               'created_by': userId,
@@ -204,6 +182,53 @@ class _BottomInfromationState extends State<BottomInfromation> {
                             isFajria = false;
                           });
                         }
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            TextEditingController peopleController =
+                                TextEditingController();
+
+                            return AlertDialog(
+                              title: Text(' عدد الأشخاص'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(' عدد الأشخاص '),
+                                  SizedBox(height: 10),
+                                  TextField(
+                                    controller: peopleController,
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(
+                                      context,
+                                    ).pop();
+                                  },
+                                  child: Text('إلغاء'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    final count = int.tryParse(
+                                      peopleController.text,
+                                    );
+                                    if (count != null && count > 0) {
+                                      Navigator.of(context).pop();
+                                      _distributeAndShareParts(context, count);
+                                    }
+                                  },
+                                  child: Text('توزيع ومشاركة'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       },
 
                       child: Container(
@@ -235,4 +260,22 @@ class _BottomInfromationState extends State<BottomInfromation> {
       child: Icon(Icons.add, color: Appcolor().sevencolor),
     );
   }
+}
+
+void _distributeAndShareParts(BuildContext context, int peopleCount) {
+  final int totalParts = 30;
+
+  List<String> parts = [];
+  for (int i = 0; i < totalParts; i++) {
+    int person = (i % peopleCount) + 1;
+    parts.add('الجزء ${i + 1} -> الشخص رقم $person');
+  }
+
+  String message = '📖 توزيع أجزاء الختمة:\n\n' + parts.join('\n');
+
+  // شارك الرسالة على واتساب
+  final Uri whatsappUri = Uri.parse(
+    'https://wa.me/?text=${Uri.encodeComponent(message)}',
+  );
+  launchUrl(whatsappUri);
 }

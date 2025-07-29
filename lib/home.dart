@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:serapp/khtmafunc/khtmaparts.dart';
 import 'package:serapp/khtmafunc/privatekhtma.dart';
 import 'package:serapp/khtmafunc/publickhtma.dart';
 import 'package:serapp/theme/colors.dart';

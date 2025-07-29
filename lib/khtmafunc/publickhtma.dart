@@ -5,6 +5,7 @@ import 'package:serapp/bloc/publickhtmaBloc.dart';
 import 'package:serapp/khtmafunc/khtmafunctions.dart';
 import 'package:serapp/service/publicservice.dart';
 import 'package:serapp/theme/colors.dart';
+import 'package:intl/intl.dart';
 
 class Publickhtma extends StatelessWidget {
   final String type;
@@ -43,22 +44,30 @@ class Publickhtma extends StatelessWidget {
                       final khatmas = state.khatmas;
                       return Center(
                         child: Expanded(
+                          flex: 1,
                           child: SizedBox(
-                            height: 220.h,
-                            width: 350.w,
+                            // height: 220.h,
+                            // width: 350.w,
                             child: ListView.builder(
+                              physics: ScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: khatmas.length,
                               itemBuilder: (context, index) {
                                 final khatma = khatmas[index];
                                 final niyyah = khatma.niyyah;
-                                final startDate = khatma.startDate;
-                                final endDate = khatma.endDate;
+
+                                final formattedStartDate = DateFormat(
+                                  'dd/MM/yyyy',
+                                ).format(khatma.startDate);
+
+                                final formattedEndDate = DateFormat(
+                                  'dd/MM/yyyy',
+                                ).format(khatma.endDate);
                                 return Column(
                                   children: [
                                     Container(
-                                      width: 309.w,
-                                      height: 195.h,
+                                      width: 350.w,
+                                      height: 200.h,
                                       decoration: BoxDecoration(
                                         color: Appcolor().sevencolor,
                                         borderRadius: BorderRadius.circular(8),
@@ -86,7 +95,7 @@ class Publickhtma extends StatelessWidget {
                                                   MainAxisAlignment.end,
                                               children: [
                                                 Text(
-                                                  "ختمة بنية $niyyah",
+                                                  " ختمة بنية $niyyah",
                                                   style: TextStyle(
                                                     fontSize: 20,
                                                     fontFamily: "H-ALHFHAF",
@@ -105,15 +114,15 @@ class Publickhtma extends StatelessWidget {
                                                         // fit: BoxFit.cover,
                                                       ),
                                                     ),
-                                                    Text(
-                                                      '${index + 1}',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        backgroundColor:
-                                                            Colors.black54,
+                                                    Center(
+                                                      child: Text(
+                                                        'ختمة\n ${index + 1}',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
                                                       ),
                                                     ),
                                                   ],
@@ -129,7 +138,7 @@ class Publickhtma extends StatelessWidget {
                                                 MainAxisAlignment.spaceAround,
                                             children: [
                                               Text(
-                                                "تاريخ البدء",
+                                                "تاريخ لانتهاء",
                                                 style: TextStyle(
                                                   fontSize: 15,
                                                   fontFamily: "H-ALHFHAF",
@@ -144,7 +153,7 @@ class Publickhtma extends StatelessWidget {
                                                 ),
                                               ),
                                               Text(
-                                                "تاريخ الانتهاء",
+                                                "تاريخ البدء",
                                                 style: TextStyle(
                                                   fontSize: 15,
                                                   fontFamily: "H-ALHFHAF",
@@ -158,8 +167,8 @@ class Publickhtma extends StatelessWidget {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceAround,
                                             children: [
-                                              Text(khatma.startDate.toString()),
-                                              Text(khatma.endDate.toString()),
+                                              Text(formattedEndDate),
+                                              Text(formattedStartDate),
                                             ],
                                           ),
                                         ],

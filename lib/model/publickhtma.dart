@@ -2,14 +2,12 @@
 import 'dart:convert';
 
 class PublicKhtma {
-  String id;
-  String niyyah;
+  String? niyyah;
   DateTime startDate;
   DateTime endDate;
   int pepolecount;
-  String createdBy;
+  String? createdBy;
   PublicKhtma({
-    required this.id,
     required this.niyyah,
     required this.startDate,
     required this.endDate,
@@ -26,7 +24,6 @@ class PublicKhtma {
     String? createdBy,
   }) {
     return PublicKhtma(
-      id: id ?? this.id,
       niyyah: niyyah ?? this.niyyah,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
@@ -37,10 +34,9 @@ class PublicKhtma {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
       'niyyah': niyyah,
-      'startDate': startDate.millisecondsSinceEpoch,
-      'endDate': endDate.millisecondsSinceEpoch,
+      'startDate': startDate,
+      'endDate': endDate,
       'pepolecount': pepolecount,
       'createdBy': createdBy,
     };
@@ -48,12 +44,15 @@ class PublicKhtma {
 
   factory PublicKhtma.fromMap(Map<String, dynamic> map) {
     return PublicKhtma(
-      id: map['id'] as String,
-      niyyah: map['niyyah'] as String,
-      startDate: DateTime.fromMillisecondsSinceEpoch(map['startDate'] as int),
-      endDate: DateTime.fromMillisecondsSinceEpoch(map['endDate'] as int),
-      pepolecount: map['pepolecount'] as int,
-      createdBy: map['createdBy'] as String,
+      niyyah: map['niyyah']?.toString(),
+      startDate: map['start_date'] != null
+          ? DateTime.tryParse(map['start_date']) ?? DateTime.now()
+          : DateTime.now(),
+      endDate: map['end_date'] != null
+          ? DateTime.tryParse(map['end_date']) ?? DateTime.now()
+          : DateTime.now(),
+      pepolecount: map['people_count'] ?? 0,
+      createdBy: map['created_by']?.toString(),
     );
   }
 
@@ -64,15 +63,14 @@ class PublicKhtma {
 
   @override
   String toString() {
-    return 'PublicKhtma(id: $id, niyyah: $niyyah, startDate: $startDate, endDate: $endDate, pepolecount: $pepolecount, createdBy: $createdBy)';
+    return 'PublicKhtma(niyyah: $niyyah, startDate: $startDate, endDate: $endDate, pepolecount: $pepolecount, createdBy: $createdBy)';
   }
 
   @override
   bool operator ==(covariant PublicKhtma other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
-        other.niyyah == niyyah &&
+    return other.niyyah == niyyah &&
         other.startDate == startDate &&
         other.endDate == endDate &&
         other.pepolecount == pepolecount &&
@@ -81,8 +79,7 @@ class PublicKhtma {
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        niyyah.hashCode ^
+    return niyyah.hashCode ^
         startDate.hashCode ^
         endDate.hashCode ^
         pepolecount.hashCode ^
