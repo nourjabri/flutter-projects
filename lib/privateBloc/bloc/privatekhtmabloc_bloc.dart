@@ -1,9 +1,7 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'package:serapp/service/privateService.dart';
+import 'package:serapp/service/Private_Service.dart';
 
 import '../../model/privatekhtma.dart';
 

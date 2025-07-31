@@ -1,5 +1,5 @@
 
-part of 'publickhtmaBloc.dart'; 
+part of 'Publickhtma_Bloc.dart'; 
 @immutable
 abstract class KhatmaState {}
 

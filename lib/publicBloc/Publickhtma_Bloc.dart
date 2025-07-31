@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serapp/model/publickhtma.dart';
 import 'package:serapp/service/publicservice.dart';
-part 'publickhtmaEvent.dart';
-part 'publickhtmaState.dart';
+part 'Publickhtma_Event.dart';
+part 'Publickhtma_State.dart';
 
 class KhatmaBloc extends Bloc<KhatmaEvent, KhatmaState> {
   final PublicKhtmaservice service;
@@ -18,6 +18,7 @@ class KhatmaBloc extends Bloc<KhatmaEvent, KhatmaState> {
           endDate: event.endDate,
           peopleCount: event.peopleCount,
           isFajria: event.isFajria,
+          peoplename: event.peoplename,
         );
 
         final khatmas = await service.fetchPublicKhtma();

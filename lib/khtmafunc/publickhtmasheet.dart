@@ -20,6 +20,8 @@ class _PublickhtmaSheetState extends State<PublickhtmaSheet> {
   String? durationvalue;
   bool isFajria = false;
   int? numberOfPeople;
+  String? peoplenames;
+
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
@@ -166,8 +168,21 @@ class _PublickhtmaSheetState extends State<PublickhtmaSheet> {
                               'people_count': numberOfPeople,
                               'is_fajria': isFajria,
                               'created_by': userId,
+                              'peoplename': peoplenames,
                             })
-                            .select();
+                            .select()
+                            .single();
+                        final khatmaId = response['id'];
+                        final List<String> names = peoplenames
+                            .toString()
+                            .split(',')
+                            .map((e) => e.trim())
+                            .toList();
+                        for (final name in names) {
+                          await Supabase.instance.client
+                              .from('khatma_people')
+                              .insert({'name': name, 'khatma_id': khatmaId});
+                        }
 
                         if (response != null) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -220,16 +235,61 @@ class _PublickhtmaSheetState extends State<PublickhtmaSheet> {
                                   child: Text('إلغاء'),
                                 ),
                                 ElevatedButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     final count = int.tryParse(
                                       peopleController.text,
                                     );
+
                                     final names = peoplename.text;
                                     if (count != null &&
                                         count > 0 &&
-                                        names != null) {
+                                        names.isNotEmpty) {
+                                      names
+                                          .split(',')
+                                          .map((e) => e.trim())
+                                          .toList();
+                                      if (names.length != count) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              "عدد الاسماء لا يطابق عدد الاشخاص المدخل",
+                                            ),
+                                          ),
+                                        );
+                                      }
                                       Navigator.of(context).pop();
-                                      // distributeAndSendParts(context: context,peopleCount: );
+                                      final khatmaId = response['id'];
+                                      for (final name in [names]) {
+                                        await Supabase.instance.client
+                                            .from('public_khatmas')
+                                            .insert({
+                                              'peoplename': name,
+                                              'khatma_id': khatmaId,
+                                            });
+                                      }
+
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'تم حفظ الأشخاص بنجاح',
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      int durationInDays =
+                                          endDate!
+                                              .difference(startDate!)
+                                              .inDays +
+                                          1;
+
+                                      generateWhatsAppMessages([
+                                        names,
+                                      ], durationInDays);
                                     }
                                   },
                                   child: Text('توزيع ومشاركة'),
@@ -271,46 +331,31 @@ class _PublickhtmaSheetState extends State<PublickhtmaSheet> {
   }
 }
 
-void distributeAndSendParts({
-  required BuildContext context,
-  required int peopleCount,
-  required DateTime startDate,
-  required DateTime endDate,
-}) {
-  const int totalParts = 30;
-  int daysCount = endDate.difference(startDate).inDays + 1;
+void generateWhatsAppMessages(List<String> names, int numberOfDays) {
+  const totalParts = 30;
+  int peopleCount = names.length;
+  int partsPerPerson = (totalParts / peopleCount).ceil();
 
-  int totalAssignments = daysCount * peopleCount;
-  if (totalAssignments < totalParts) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("عدد الأشخاص والأيام لا يكفي لتوزيع جميع الأجزاء"),
-      ),
-    );
-    return;
-  }
+  for (int i = 0; i < names.length; i++) {
+    int startPart = (i * partsPerPerson) + 1;
+    int endPart = ((i + 1) * partsPerPerson);
+    if (endPart > totalParts) endPart = totalParts;
 
-  int part = 1;
-  Map<int, List<String>> personMessages = {};
+    String message =
+        '''
+السلام عليكم ${names[i]} 🌸
 
-  for (int day = 0; day < daysCount; day++) {
-    String dateString = DateFormat(
-      'yyyy-MM-dd',
-    ).format(startDate.add(Duration(days: day)));
+تم تخصيص الأجزاء التالية لك ضمن ختمة القرآن:
 
-    for (int person = 0; person < peopleCount; person++) {
-      if (part > totalParts) break;
+📖 من الجزء ${startPart} إلى الجزء ${endPart}
 
-      personMessages.putIfAbsent(person, () => []);
-      personMessages[person]!.add('📅 $dateString: الجزء $part');
-      part++;
-    }
-  }
+📅 عدد أيام الختمة: $numberOfDays يوم
 
-  // إرسال رسالة واتساب لكل شخص
-  for (int i = 0; i < peopleCount; i++) {
-    String message = '📖 أجزاء ختمتك:\n\n' + personMessages[i]!.join('\n');
-    String url = 'https://wa.me/?text=${Uri.encodeComponent(message)}';
-    launchUrl(Uri.parse(url));
+📢 سيتم إرسال تذكير يومي بقراءتك بإذن الله
+
+جزاك الله كل خير 💚
+''';
+
+    print(Uri.encodeFull("https://wa.me/?text=$message"));
   }
 }

@@ -17,6 +17,12 @@ class _CompitionScreenState extends State<CompitionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(gradient: maindecoration()),
+        ),
+        leading: Icon(Icons.arrow_back_ios, color: Appcolor().sixcolor),
+      ),
       body: Container(
         decoration: BoxDecoration(gradient: maindecoration()),
         child: SingleChildScrollView(
@@ -36,7 +42,7 @@ class _CompitionScreenState extends State<CompitionScreen> {
               ),
 
               const SizedBox(height: 40),
-              Container(
+              SizedBox(
                 width: 348.w,
                 height: 800.h,
 
@@ -182,7 +188,6 @@ class _CompitionScreenState extends State<CompitionScreen> {
                                 onPressed: () {
                                   setState(() {
                                     counter++;
-                                    print(counter);
                                   });
                                 },
                                 child: Text(

@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:serapp/khtmafunc/privatekhtmasheet.dart';
 import 'package:serapp/privateBloc/bloc/privatekhtmabloc_bloc.dart';
-import 'package:serapp/publicBloc/publickhtmaBloc.dart';
-import 'package:serapp/service/privateService.dart';
+
+import 'package:serapp/service/Private_Service.dart';
 import 'package:serapp/theme/colors.dart';
 
 class PrivateKhtma extends StatefulWidget {
@@ -22,6 +22,11 @@ class _PrivateKhtmaState extends State<PrivateKhtma> {
       create: (_) =>
           PrivatekhtmablocBloc(PrivateKhtmaservice())..add(LoadPrivateKhtma()),
       child: Scaffold(
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: BoxDecoration(gradient: maindecoration()),
+          ),
+        ),
         body: Container(
           width: 400.w,
           height: 1600.h,

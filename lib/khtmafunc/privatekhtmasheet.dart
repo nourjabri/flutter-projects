@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:serapp/theme/colors.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PrivatekhtmaSheet extends StatefulWidget {
   const PrivatekhtmaSheet({super.key});
@@ -178,6 +179,9 @@ class _PrivatekhtmaSheetState extends State<PrivatekhtmaSheet> {
                             isFajria = false;
                           });
                         }
+                        int durationInDays =
+                            endDate!.difference(startDate!).inDays + 1;
+                        distributeAndShareParts(context, durationInDays);
                       },
 
                       child: Container(
@@ -209,4 +213,21 @@ class _PrivatekhtmaSheetState extends State<PrivatekhtmaSheet> {
       child: Icon(Icons.add, color: Appcolor().sevencolor),
     );
   }
+}
+
+void distributeAndShareParts(BuildContext context, int duration) {
+  final int totalParts = 30;
+
+  List<String> parts = [];
+  for (int i = 0; i < totalParts; i++) {
+    int part = (i % duration) + 1;
+    parts.add('الجزء ${i + 1} -> الشخص رقم $part');
+  }
+
+  String message = '📖 توزيع أجزاء الختمة:\n\n' + parts.join('\n');
+
+  final Uri whatsappUri = Uri.parse(
+    'https://wa.me/?text=${Uri.encodeComponent(message)}',
+  );
+  launchUrl(whatsappUri);
 }

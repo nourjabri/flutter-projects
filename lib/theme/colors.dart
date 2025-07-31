@@ -9,6 +9,7 @@ class Appcolor {
   Color fivstcolor = Color(0xff9D6A63);
   Color sixcolor = Color(0xff372527);
   Color sevencolor = Color(0xffFFF8C7);
+  Color cardcolor = Color(0xffD5D5D5);
 }
 
 LinearGradient maindecoration() {

@@ -11,14 +11,20 @@ class PublicKhtmaservice {
     required DateTime endDate,
     required int peopleCount,
     required bool isFajria,
+    required String peoplename,
   }) async {
-    await Supabase.instance.client.from('public_khatmas').insert({
-      'niyyah': niyyah,
-      'start_date': startDate.toString(),
-      'end_date': endDate.toString(),
-      'people_count': peopleCount,
-      'is_fajria': isFajria,
-    });
+    await Supabase.instance.client
+        .from('public_khatmas')
+        .insert({
+          'niyyah': niyyah,
+          'start_date': startDate.toString(),
+          'end_date': endDate.toString(),
+          'people_count': peopleCount,
+          'is_fajria': isFajria,
+          'peoplename': peoplename,
+        })
+        .select()
+        .single();
   }
 
   Future<List<PublicKhtma>> fetchPublicKhtma() async {

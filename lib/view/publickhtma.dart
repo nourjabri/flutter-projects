@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:serapp/publicBloc/publickhtmaBloc.dart';
+import 'package:serapp/publicBloc/Publickhtma_Bloc.dart';
 import 'package:serapp/khtmafunc/publickhtmasheet.dart';
 import 'package:serapp/service/publicservice.dart';
 import 'package:serapp/theme/colors.dart';
 import 'package:intl/intl.dart';
+import 'package:serapp/view/khtmapart.dart';
 
 class Publickhtma extends StatelessWidget {
   final String type;
@@ -16,6 +17,11 @@ class Publickhtma extends StatelessWidget {
     return BlocProvider(
       create: (_) => KhatmaBloc(PublicKhtmaservice())..add(LoadPublicKhatmas()),
       child: Scaffold(
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: BoxDecoration(gradient: maindecoration()),
+          ),
+        ),
         body: Container(
           width: 400.w,
           height: 1600.h,
@@ -94,11 +100,27 @@ class Publickhtma extends StatelessWidget {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
                                               children: [
-                                                Text(
-                                                  " ختمة بنية $niyyah",
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontFamily: "H-ALHFHAF",
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            KhtmaPartScreen(
+                                                              niyyahvalue: niyyah
+                                                                  .toString(),
+                                                            ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    " ختمة بنية $niyyah",
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      color:
+                                                          Appcolor().sixcolor,
+                                                      fontFamily: "H-ALHFHAF",
+                                                    ),
                                                   ),
                                                 ),
 
@@ -106,8 +128,8 @@ class Publickhtma extends StatelessWidget {
                                                   alignment: Alignment.center,
                                                   children: [
                                                     SizedBox(
-                                                      height: 100,
-                                                      width: 100,
+                                                      height: 80,
+                                                      width: 80,
                                                       child: Image.asset(
                                                         "assets/images/note.png",
                                                         width: double.infinity,

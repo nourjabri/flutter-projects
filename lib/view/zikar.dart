@@ -14,6 +14,11 @@ class _ZikarScreenState extends State<ZikarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(gradient: maindecoration()),
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(gradient: maindecoration()),
         child: SingleChildScrollView(

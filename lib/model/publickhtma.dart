@@ -6,6 +6,7 @@ class PublicKhtma {
   DateTime startDate;
   DateTime endDate;
   int pepolecount;
+  String? peoplename;
   String? createdBy;
   PublicKhtma({
     required this.niyyah,
@@ -13,6 +14,7 @@ class PublicKhtma {
     required this.endDate,
     required this.pepolecount,
     required this.createdBy,
+    required this.peoplename,
   });
 
   PublicKhtma copyWith({
@@ -22,6 +24,7 @@ class PublicKhtma {
     DateTime? endDate,
     int? pepolecount,
     String? createdBy,
+    String? peoplename,
   }) {
     return PublicKhtma(
       niyyah: niyyah ?? this.niyyah,
@@ -29,6 +32,7 @@ class PublicKhtma {
       endDate: endDate ?? this.endDate,
       pepolecount: pepolecount ?? this.pepolecount,
       createdBy: createdBy ?? this.createdBy,
+      peoplename: peoplename ?? this.peoplename,
     );
   }
 
@@ -39,12 +43,14 @@ class PublicKhtma {
       'endDate': endDate,
       'pepolecount': pepolecount,
       'createdBy': createdBy,
+      'peoplename': peoplename,
     };
   }
 
   factory PublicKhtma.fromMap(Map<String, dynamic> map) {
     return PublicKhtma(
       niyyah: map['niyyah']?.toString(),
+      peoplename: map['peoplename']?.toString(),
       startDate: map['start_date'] != null
           ? DateTime.tryParse(map['start_date']) ?? DateTime.now()
           : DateTime.now(),
@@ -63,7 +69,7 @@ class PublicKhtma {
 
   @override
   String toString() {
-    return 'PublicKhtma(niyyah: $niyyah, startDate: $startDate, endDate: $endDate, pepolecount: $pepolecount, createdBy: $createdBy)';
+    return 'PublicKhtma(niyyah: $niyyah, startDate: $startDate, endDate: $endDate, pepolecount: $pepolecount, createdBy: $createdBy ,peoplename:$peoplename)';
   }
 
   @override
@@ -74,6 +80,7 @@ class PublicKhtma {
         other.startDate == startDate &&
         other.endDate == endDate &&
         other.pepolecount == pepolecount &&
+        other.peoplename == peoplename &&
         other.createdBy == createdBy;
   }
 
@@ -83,6 +90,7 @@ class PublicKhtma {
         startDate.hashCode ^
         endDate.hashCode ^
         pepolecount.hashCode ^
+        peoplename.hashCode ^
         createdBy.hashCode;
   }
 }
