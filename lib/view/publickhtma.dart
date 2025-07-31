@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:serapp/publicBloc/publickhtmaBloc.dart';
-import 'package:serapp/khtmafunc/khtmafunctions.dart';
+import 'package:serapp/khtmafunc/publickhtmasheet.dart';
 import 'package:serapp/service/publicservice.dart';
 import 'package:serapp/theme/colors.dart';
 import 'package:intl/intl.dart';
@@ -194,7 +194,7 @@ class Publickhtma extends StatelessWidget {
         ),
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(right: 150),
-          child: BottomInfromation(),
+          child: PublickhtmaSheet(),
         ),
       ),
     );

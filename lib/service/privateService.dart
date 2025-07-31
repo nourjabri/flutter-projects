@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:serapp/model/privatekhtma.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PrivateKhtmaservice {
@@ -17,5 +18,15 @@ class PrivateKhtmaservice {
       'end_date': endDate.toString(),
       'is_fajria': isFajria,
     });
+  }
+
+  Future<List<PrivateKhtma>> fetchPrivateKhtma() async {
+    final response = await client
+        .from('private_khatmas')
+        .select()
+        .order('created_at', ascending: false);
+    return (response as List)
+        .map((item) => PrivateKhtma.fromMap(item))
+        .toList();
   }
 }

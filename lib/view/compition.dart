@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:serapp/theme/colors.dart';
@@ -10,6 +12,8 @@ class CompitionScreen extends StatefulWidget {
 }
 
 class _CompitionScreenState extends State<CompitionScreen> {
+  final List<String> counterItems = ["41", "33", "77", "100", "1000", "مخصص"];
+  int counter = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,17 +63,50 @@ class _CompitionScreenState extends State<CompitionScreen> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    Container(
-                      height: 100.h,
-                      width: 100.w,
-                      decoration: BoxDecoration(
-                        color: Appcolor().sevencolor,
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/frame.png"),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        // الخلفية الملونة
+                        Container(
+                          height: 75.h,
+                          width: 75.w,
+                          decoration: BoxDecoration(
+                            color: Appcolor().sevencolor,
+                            shape: BoxShape.circle,
+                          ),
                         ),
-                      ),
-                      child: Center(child: Text("data")),
+
+                        Image.asset(
+                          "assets/images/frame.png",
+                          height: 100.h,
+                          width: 100.w,
+                          fit: BoxFit.cover,
+                        ),
+
+                        Center(
+                          child: Text(
+                            counter.toString(),
+                            style: TextStyle(
+                              color: Appcolor().sixcolor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
+
+                    // Container(
+                    //   height: 100.h,
+                    //   width: 100.w,
+                    //   decoration: BoxDecoration(
+                    //     color: Appcolor().sevencolor,
+                    //     image: DecorationImage(
+                    //       image: AssetImage("assets/images/frame.png"),
+                    //     ),
+                    //   ),
+                    //   child: Center(child: Text(counter.toString())),
+                    // ),
                     Stack(
                       alignment: Alignment.center,
                       children: [
@@ -83,17 +120,30 @@ class _CompitionScreenState extends State<CompitionScreen> {
                           child: Transform.rotate(
                             angle: 30,
                             child: Stack(
-                              children: [
-                                Text("41"),
-                                Text("33"),
-                                Text("100"),
-                                Text("1000"),
-                                Text("7"),
+                              children: List.generate(counterItems.length, (
+                                index,
+                              ) {
+                                final angle =
+                                    (2 * pi * index) / counterItems.length;
+                                final radius = 140.0;
 
-                                
-                                Text("10"),
-                                Text("مخصص"),
-                              ],
+                                return Transform.translate(
+                                  offset: Offset(
+                                    radius * cos(angle),
+                                    radius * sin(angle),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      counterItems[index],
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                        fontFamily: "H-ALHFHAF",
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
                             ),
                           ),
                         ),
@@ -127,7 +177,23 @@ class _CompitionScreenState extends State<CompitionScreen> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 50),
-                            child: Center(child: Text("انقر")),
+                            child: Center(
+                              child: TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    counter++;
+                                    print(counter);
+                                  });
+                                },
+                                child: Text(
+                                  "انقر",
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontFamily: "H-ALHFHAF",
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ],

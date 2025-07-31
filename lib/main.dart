@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:serapp/fajertheme.dart/fajartheme.dart';
-import 'package:serapp/khtmafunc/khtmaparts.dart';
 import 'package:serapp/service/fajarthemeService.dart';
 import 'package:serapp/service/location.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -10,8 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:serapp/publicBloc/publickhtmaBloc.dart';
 import 'package:serapp/service/publicservice.dart';
 import 'package:serapp/splash.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
+  
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final themeProvider = ThemeProvider(ThemeData.light());
@@ -35,10 +33,11 @@ void main() async {
     print('Error during theme setup: $e');
   }
 
-  await dotenv.load(fileName: ".env");
+  // await dotenv.load(fileName: ".env");
   await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_KEY']!,
+    url: 'https://uhnzukuotznhcetikaqz.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVobnp1a3VvdHpuaGNldGlrYXF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0Njk3MDIsImV4cCI6MjA2OTA0NTcwMn0.8XlNsMnTOuSQUxKITfVQIwUhsB-Q1VWSFrCn3i2zfpw',
   );
   final session = Supabase.instance.client.auth.currentSession;
   if (session == null) {

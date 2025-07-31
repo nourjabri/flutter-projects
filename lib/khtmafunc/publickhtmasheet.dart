@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:serapp/model/publickhtma.dart';
 import 'package:serapp/theme/colors.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class BottomInfromation extends StatefulWidget {
-  const BottomInfromation({super.key});
+class PublickhtmaSheet extends StatefulWidget {
+  const PublickhtmaSheet({super.key});
 
   @override
-  State<BottomInfromation> createState() => _BottomInfromationState();
+  State<PublickhtmaSheet> createState() => _PublickhtmaSheetState();
 }
 
-class _BottomInfromationState extends State<BottomInfromation> {
+class _PublickhtmaSheetState extends State<PublickhtmaSheet> {
   String? nihavalue;
   DateTime? startDate;
   DateTime? endDate;
@@ -142,26 +143,6 @@ class _BottomInfromationState extends State<BottomInfromation> {
                       }),
                       checkColor: Appcolor().secondcolor,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Checkbox(
-                        //   value: isFajria,
-                        //   tristate: true,
-                        //   activeColor: Colors.white,
-                        //   checkColor: Appcolor().sevencolor,
-                        //   onChanged: (value) {
-                        //     setState(() {
-                        //       isFajria = value!;
-                        //     });
-                        //   },
-                        // ),
-                        // Text(
-                        //   "فجرية",
-                        //   style: TextStyle(fontSize: 16, color: Colors.white),
-                        // ),
-                      ],
-                    ),
 
                     MaterialButton(
                       onPressed: () async {
@@ -204,6 +185,8 @@ class _BottomInfromationState extends State<BottomInfromation> {
                           builder: (context) {
                             TextEditingController peopleController =
                                 TextEditingController();
+                            TextEditingController peoplename =
+                                TextEditingController();
 
                             return AlertDialog(
                               title: Text(' عدد الأشخاص'),
@@ -215,6 +198,14 @@ class _BottomInfromationState extends State<BottomInfromation> {
                                   TextField(
                                     controller: peopleController,
                                     keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                  Text("اسماء الاشخاص"),
+                                  TextField(
+                                    controller: peoplename,
+                                    keyboardType: TextInputType.text,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(),
                                     ),
@@ -233,9 +224,12 @@ class _BottomInfromationState extends State<BottomInfromation> {
                                     final count = int.tryParse(
                                       peopleController.text,
                                     );
-                                    if (count != null && count > 0) {
+                                    final names = peoplename.text;
+                                    if (count != null &&
+                                        count > 0 &&
+                                        names != null) {
                                       Navigator.of(context).pop();
-                                      _distributeAndShareParts(context, count);
+                                      // distributeAndSendParts(context: context,peopleCount: );
                                     }
                                   },
                                   child: Text('توزيع ومشاركة'),
@@ -277,20 +271,46 @@ class _BottomInfromationState extends State<BottomInfromation> {
   }
 }
 
-void _distributeAndShareParts(BuildContext context, int peopleCount) {
-  final int totalParts = 30;
+void distributeAndSendParts({
+  required BuildContext context,
+  required int peopleCount,
+  required DateTime startDate,
+  required DateTime endDate,
+}) {
+  const int totalParts = 30;
+  int daysCount = endDate.difference(startDate).inDays + 1;
 
-  List<String> parts = [];
-  for (int i = 0; i < totalParts; i++) {
-    int person = (i % peopleCount) + 1;
-    parts.add('الجزء ${i + 1} -> الشخص رقم $person');
+  int totalAssignments = daysCount * peopleCount;
+  if (totalAssignments < totalParts) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("عدد الأشخاص والأيام لا يكفي لتوزيع جميع الأجزاء"),
+      ),
+    );
+    return;
   }
 
-  String message = '📖 توزيع أجزاء الختمة:\n\n' + parts.join('\n');
+  int part = 1;
+  Map<int, List<String>> personMessages = {};
 
-  // شارك الرسالة على واتساب
-  final Uri whatsappUri = Uri.parse(
-    'https://wa.me/?text=${Uri.encodeComponent(message)}',
-  );
-  launchUrl(whatsappUri);
+  for (int day = 0; day < daysCount; day++) {
+    String dateString = DateFormat(
+      'yyyy-MM-dd',
+    ).format(startDate.add(Duration(days: day)));
+
+    for (int person = 0; person < peopleCount; person++) {
+      if (part > totalParts) break;
+
+      personMessages.putIfAbsent(person, () => []);
+      personMessages[person]!.add('📅 $dateString: الجزء $part');
+      part++;
+    }
+  }
+
+  // إرسال رسالة واتساب لكل شخص
+  for (int i = 0; i < peopleCount; i++) {
+    String message = '📖 أجزاء ختمتك:\n\n' + personMessages[i]!.join('\n');
+    String url = 'https://wa.me/?text=${Uri.encodeComponent(message)}';
+    launchUrl(Uri.parse(url));
+  }
 }

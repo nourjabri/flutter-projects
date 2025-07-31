@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:serapp/khtmafunc/privatekhtma.dart';
-import 'package:serapp/khtmafunc/publickhtma.dart';
+import 'package:serapp/view/privatekhtma.dart';
+import 'package:serapp/view/publickhtma.dart';
 import 'package:serapp/theme/colors.dart';
 import 'package:serapp/view/compition.dart';
 import 'package:serapp/view/zikar.dart';

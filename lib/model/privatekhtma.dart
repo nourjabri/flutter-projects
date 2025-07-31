@@ -23,6 +23,7 @@ class PrivateKhtma {
       niyyah: niyyah ?? this.niyyah,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
+
       createdBy: createdBy ?? this.createdBy,
     );
   }
@@ -38,10 +39,14 @@ class PrivateKhtma {
 
   factory PrivateKhtma.fromMap(Map<String, dynamic> map) {
     return PrivateKhtma(
-      niyyah: map['niyyah'] != null ? map['niyyah'] as String : null,
-      startDate: DateTime.fromMillisecondsSinceEpoch(map['startDate'] as int),
-      endDate: DateTime.fromMillisecondsSinceEpoch(map['endDate'] as int),
-      createdBy: map['createdBy'] != null ? map['createdBy'] as String : null,
+      niyyah: map['niyyah']?.toString(),
+      startDate: map['start_date'] != null
+          ? DateTime.tryParse(map['start_date']) ?? DateTime.now()
+          : DateTime.now(),
+      endDate: map['end_date'] != null
+          ? DateTime.tryParse(map['end_date']) ?? DateTime.now()
+          : DateTime.now(),
+      createdBy: map['created_by']?.toString(),
     );
   }
 
@@ -73,4 +78,3 @@ class PrivateKhtma {
         createdBy.hashCode;
   }
 }
-  
