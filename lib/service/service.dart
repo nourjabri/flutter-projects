@@ -2,69 +2,59 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
-class AudioService {
-  final Dio dio = Dio();
-  final String apikey = "c5401d1f53224447be9abe2dfeb065e0";
-  Future<String?> auploadAudio(File audiofile) async {
-    try {
-      final response = await dio.post(
-        "https://api.assemblyai.com/v2/upload",
-        data: audiofile.openRead(),
-        options: Options(
-          headers: {'authorization': apikey, 'Transfer-Encoding': "chunked"},
-        ),
-      );
-      if (response.statusCode == 200) {
-        return response.data['upload_url'];
-      } else {
-        print("لم ينجح الرفع بسبب :${response.statusCode}");
-      }
-    } catch (e) {
-      print('لم نستطع رفع الملف :$e');
-      return null;
-    }
-  }
+Future<String?> uploadAndTranscribe(String filePath) async {
+  const apiKey = 'c5401d1f53224447be9abe2dfeb065e0';
+  final dio = Dio();
 
-  Future<void> transcribeAudio(String audioUrl) async {
-    final response = await dio.post(
-      'https://api.assemblyai.com/v2/transcript',
-      data: {'audio_url': audioUrl, 'language_code': 'ar'},
+  try {
+    final uploadResponse = await dio.post(
+      'https://api.assemblyai.com/v2/upload',
+      data: File(filePath).openRead(),
       options: Options(
-        headers: {'authorization': apikey, 'content-type': 'application/json'},
+        headers: {
+          'Authorization': apiKey,
+          'Transfer-Encoding': 'chunked',
+        },
       ),
     );
 
-    if (response.statusCode == 200) {
-      final transcriptId = response.data['id'];
-      await pollTranscriptionResult(transcriptId);
-    } else {
-      print("فشل بدء التحويل: ${response.statusCode}");
-    }
-  }
+    final uploadUrl = uploadResponse.data['upload_url'];
+    print("رابط الصوت: $uploadUrl");
 
-  Future<void> pollTranscriptionResult(String id) async {
-    String status = "";
+    final transcriptResponse = await dio.post(
+      'https://api.assemblyai.com/v2/transcript',
+      data: {
+        'audio_url': uploadUrl,
+        'language_code': 'ar',
+      },
+      options: Options(
+        headers: {'Authorization': apiKey},
+      ),
+    );
 
-    while (status != "completed" && status != "error") {
-      await Future.delayed(Duration(seconds: 3));
+    final transcriptId = transcriptResponse.data['id'];
+    print("رقم التفريغ: $transcriptId");
 
-      final response = await dio.get(
-        'https://api.assemblyai.com/v2/transcript/$id',
-        options: Options(headers: {'authorization': apikey}),
+    while (true) {
+      final pollingResponse = await dio.get(
+        'https://api.assemblyai.com/v2/transcript/$transcriptId',
+        options: Options(
+          headers: {'Authorization': apiKey},
+        ),
       );
 
-      status = response.data['status'];
-
-      if (status == "completed") {
-        final text = response.data['text'];
-        print("النص المحول: $text");
-      } else {
-        print("قيد المعالجة... الحالة: $status");
+      final status = pollingResponse.data['status'];
+      if (status == 'completed') {
+        return pollingResponse.data['text'];
+      } else if (status == 'error') {
+        print(" فشل التفريغ: ${pollingResponse.data['error']}");
+        return null;
       }
-    }
 
-    if (status == "error") {
-      print("حدث خطأ أثناء تحويل الصوت إلى نص");
+      await Future.delayed(const Duration(seconds: 3));
     }
+  } catch (e) {
+    print(" خطأ أثناء الرفع: $e");
+    return null;
   }
 }

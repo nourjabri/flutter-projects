@@ -63,10 +63,10 @@ class _LoginScreenState extends State<LoginScreen> {
       body: BlocListener<AuthBloc,AuthblocState >(
         listener: (context, state) {
           if (state is SuccessAuth) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => Home()),
-            );
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(builder: (_) => Home()),
+            // );
             return;
           } else if (state is FailedAuth) {
             ScaffoldMessenger.of(
