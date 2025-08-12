@@ -6,15 +6,15 @@ class AuthService {
   Dio dioauth;
 
   AuthService({required this.dioauth});
-  Future<AuthModel> login(String email, String password) async {
+  Future<AuthModel> checkauth(String email, String password) async {
     try {
       Response response = await dioauth.post(
         "https://school-managment-app-tqbh.onrender.com/admin/auth/login",
         data: {"username": email, "password": password},
       );
       print("Login Data:  ${response.data}");
-      print(response.statusCode);
-      print(email);
+      print(response.data);
+
       return AuthModel.fromMap(response.data);
     } catch (e) {
       print("failed to login:  $e");
@@ -24,14 +24,10 @@ class AuthService {
 
   Future<AuthModel> refreshtokenservice(String refreshtoken) async {
     AuthModel authModelrefresh;
-    Response response = await dioauth.post("");
-    try {
-      print(response.data);
-      authModelrefresh = AuthModel.fromMap(response.data);
-      return authModelrefresh;
-    } catch (e) {
-      print(e);
-      throw Exception("Refresh Token Failed");
-    }
+    Response response = await dioauth.post(
+      "https://school-managment-app-tqbh.onrender.com/refresh",
+      options: Options(headers: {'Authorization': 'Bearer$refreshtoken'}),
+    );
+    return AuthModel.fromMap(response.data);
   }
 }

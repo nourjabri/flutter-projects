@@ -1,5 +1,5 @@
 import 'package:audioapp/mainbuttons/colors.dart';
-import 'package:audioapp/view/home.dart';
+import 'package:audioapp/view/welcome.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -10,7 +10,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  Color backgroundColor = Colors.white;
+  Color backgroundColor = Appcolor().secondrcolor;
   bool showLogo = false;
 
   @override
@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
 //1
     Future.delayed(const Duration(seconds: 1), () {
       setState(() {
-        backgroundColor = Appcolor().primarycolor;
+        backgroundColor = Appcolor().secondrcolor;
       });
     });
     //2
@@ -33,23 +33,29 @@ class _SplashScreenState extends State<SplashScreen> {
     //
     Future.delayed(const Duration(seconds: 1), () {
       setState(() {
-        backgroundColor = Colors.blue.shade400;
-        showLogo = true;
+        backgroundColor = Appcolor().primarycolor;
+        chagelogosize();
       });
     });
     //4
     //
     Future.delayed(const Duration(seconds: 2), () {
+      backgroundColor = Appcolor().primarycolor;
       setState(() {
         showLogo = true;
       });
     });
-
+    Future.delayed(const Duration(seconds: 2), () {
+      backgroundColor = Appcolor().secondrcolor;
+      setState(() {
+        showtext();
+      });
+    });
     Future.delayed(const Duration(seconds: 4), () {
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => Home()),
-      // );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => welcome()),
+      );
     });
   }
 
@@ -61,10 +67,33 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Center(
         child: showLogo
             ? Image.asset(
-                "",
+                "assets/images/logo.png",
               )
             : const SizedBox(),
       ),
     );
   }
+}
+
+showtext() {
+  Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Image.asset(
+        "assets/images/logo.png",
+        width: 80,
+      ),
+      Text(
+        "الحكمة",
+        style: TextStyle(color: Appcolor().litcolor),
+      ),
+    ],
+  );
+}
+
+chagelogosize() {
+  Image.asset(
+    "assets/images/logo.png",
+    width: 200,
+  );
 }

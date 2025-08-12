@@ -1,9 +1,17 @@
 import 'dart:io';
+import 'package:audioapp/service/service.dart';
+import 'package:audioapp/view/correction.dart';
 import 'package:audioapp/view/historyaudio.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
+
+AudioRecorder record = AudioRecorder();
+final AudioPlayer audioPlayer = AudioPlayer();
+String? recordedFilePath;
+bool isRecording = false;
+bool isPlaying = false;
 
 class AudioRecorderScreen extends StatefulWidget {
   @override
@@ -11,12 +19,6 @@ class AudioRecorderScreen extends StatefulWidget {
 }
 
 class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
-  AudioRecorder record = AudioRecorder();
-  final AudioPlayer audioPlayer = AudioPlayer();
-  String? recordedFilePath;
-  bool isRecording = false;
-  bool isPlaying = false;
-
   Future<String> getRecordingPath(String fileName) async {
     final dir = await getApplicationDocumentsDirectory();
 
@@ -80,9 +82,36 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
     });
   }
 
+  final TextEditingController refController = TextEditingController();
+  final TextEditingController transController = TextEditingController();
+
+  double beforePercent = 0.0;
+  double afterPercent = 0.0;
+  String corrected = '';
+
+  void runCompare() {
+    final ref = refController.text;
+    final trans = transController.text;
+
+    final refNorm = normalizeArabic(ref);
+    final transNorm = normalizeArabic(trans);
+
+    final before = similarityPercentByWords(refNorm, transNorm);
+    final fixed = correctTranscriptByReference(trans, ref, threshold: 0.4);
+    final fixedNorm = normalizeArabic(fixed);
+    final after = similarityPercentByWords(refNorm, fixedNorm);
+
+    setState(() {
+      beforePercent = before;
+      corrected = fixed;
+      afterPercent = after;
+    });
+  }
+
   @override
   void dispose() {
-    record.dispose();
+    refController.dispose();
+    transController.dispose();
     audioPlayer.dispose();
     super.dispose();
   }
@@ -116,6 +145,35 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
                 );
               },
               child: const Text('عرض التسجيلات السابقة'),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("ارفع التسجيل "),
+                IconButton(
+                  icon: const Icon(Icons.cloud_upload),
+                  onPressed: () async {
+                    final text =
+                        await uploadAndTranscribe(recordedFilePath.toString());
+
+                    if (text != null) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: const Text("النص المستخرج"),
+                          content: Column(
+                            children: [
+                              Text(text),
+                              Text(
+                                  'نسبة التطابق بعد التصحيح: ${afterPercent.toStringAsFixed(2)}%'),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
           ],
         ),

@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:audioapp/service/service.dart';
+import 'package:audioapp/mainbuttons/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -60,7 +60,13 @@ class _HistoryAudiosState extends State<HistoryAudios> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('التسجيلات السابقة')),
+      appBar: AppBar(
+        title: const Text(
+          'التسجيلات السابقة',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Appcolor().secondrcolor,
+      ),
       body: recordings.isEmpty
           ? const Center(child: Text('لا توجد تسجيلات سابقة'))
           : ListView.builder(
@@ -69,32 +75,32 @@ class _HistoryAudiosState extends State<HistoryAudios> {
                 final file = recordings[index];
                 final filename = file.path.split('/').last;
 
-                return ListTile(
-                    title: Text(filename),
-                    trailing: IconButton(
-                      icon: Icon(
-                        playingFilePath == file.path
-                            ? Icons.stop
-                            : Icons.play_arrow,
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    child: ListTile(
+                      title: Text('$filename+ $index'),
+                      leading: IconButton(
+                        icon: Icon(
+                          playingFilePath == file.path
+                              ? Icons.stop
+                              : Icons.play_arrow,
+                        ),
+                        onPressed: () => playAudio(file.path),
                       ),
-                      onPressed: () => playAudio(file.path),
+                      trailing: IconButton(
+                          onPressed: () async {
+                            final deletedrecord = File(file.path);
+                            if (await deletedrecord.exists()) {
+                              await deletedrecord.delete();
+                              await loadRecordings();
+                              setState(() {});
+                            }
+                          },
+                          icon: Icon(Icons.delete)),
                     ),
-                    leading: IconButton(
-                      icon: const Icon(Icons.cloud_upload),
-                      onPressed: () async {
-                        final text = await uploadAndTranscribe(file.path);
-
-                        if (text != null) {
-                          showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                              title: const Text("النص المستخرج"),
-                              content: Text(text),
-                            ),
-                          );
-                        }
-                      },
-                    ));
+                  ),
+                );
               },
             ),
     );

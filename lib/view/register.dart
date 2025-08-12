@@ -1,16 +1,17 @@
 import 'package:audioapp/mainbuttons/colors.dart';
-import 'package:audioapp/view/restpassword.dart';
+import 'package:audioapp/view/compRegister.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
-  State<Login> createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
+  TextEditingController namecontroller = TextEditingController();
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController phonecontroller = TextEditingController();
-
+  TextEditingController datecontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +31,7 @@ class _LoginState extends State<Login> {
                   height: 20,
                 ),
                 Text(
-                  "تسجيل دخول ",
+                  "إنشاء حساب ",
                   style: TextStyle(
                       color: Appcolor().primarycolor,
                       fontFamily: "Cario",
@@ -45,20 +46,44 @@ class _LoginState extends State<Login> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
-                        child: Text("البريد الالكتروني",
+                        child: Text("الاسم",
                             style: TextStyle(
                                 fontFamily: "Cario",
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400)),
                       ),
                       TextField(
-                        controller: emailcontroller,
+                        controller: namecontroller,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderSide: BorderSide(color: Appcolor().gray)),
                         ),
                       ),
-                      Text("كلمةالمرور",
+                      Text("تاريخ الميلاد",
+                          style: TextStyle(
+                              fontFamily: "Cario",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400)),
+                      TextField(
+                        controller: datecontroller,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Appcolor().gray)),
+                        ),
+                      ),
+                      Text("رقم الهاتف",
+                          style: TextStyle(
+                              fontFamily: "Cario",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400)),
+                      TextField(
+                        controller: phonecontroller,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Appcolor().gray)),
+                        ),
+                      ),
+                      Text("البريد الالكتروني",
                           style: TextStyle(
                               fontFamily: "Cario",
                               fontSize: 16,
@@ -82,27 +107,24 @@ class _LoginState extends State<Login> {
                     TextButton(
                         onPressed: () {},
                         child: Text(
-                          " إعادة تعيين كلمة المرور  ؟  ",
+                          " إدخال الرمز الخاص ",
                           style: TextStyle(color: Colors.red),
                         )),
-                    TextButton(
-                      child: Text(" نسيت كلمة المرور ؟ "),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Restpassword()));
-                      },
-                    )
+                    Text("  منتسب لمعهد ما ؟ ")
                   ],
                 ),
                 MaterialButton(
                   minWidth: 312,
                   height: 54,
                   color: Appcolor().primarycolor,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CompRegister()));
+                  },
                   child: Text(
-                    "تسجيل دخول ",
+                    "التالي ",
                     style: TextStyle(
                         fontFamily: "Cario",
                         color: Colors.white,
