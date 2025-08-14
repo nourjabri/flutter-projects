@@ -5,7 +5,7 @@ import 'package:record/record.dart';
 
 AudioRecorder record = AudioRecorder();
 final AudioPlayer audioPlayer = AudioPlayer();
-String? recordedFilePath;
+
 bool isRecording = false;
 bool isPlaying = false;
 
@@ -33,7 +33,7 @@ Future<String?> startRecording() async {
       ),
       path: path,
     );
-
+    print("nour record");
     return path;
   }
   return null;

@@ -1,5 +1,6 @@
 import 'package:audioapp/mainbuttons/colors.dart';
 import 'package:audioapp/view/alhadith.dart';
+import 'package:audioapp/view/login.dart';
 import 'package:audioapp/view/register.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +29,7 @@ class welcome extends StatelessWidget {
                   " جاهز لتعلم المزيد ؟",
                   style: TextStyle(
                       color: Appcolor().secondrcolor,
-                      fontFamily: "Cario",
+                      fontFamily: "Cairo",
                       fontSize: 20,
                       fontWeight: FontWeight.w700),
                 ),
@@ -46,19 +47,38 @@ class welcome extends StatelessWidget {
                   },
                   child: Text(
                     "إنشاء حساب",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                        fontFamily: "Cairo",
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white),
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Login()));
+                        },
                         child: Text(
                           "تسجيل دخول ",
-                          style: TextStyle(color: Colors.red),
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontFamily: "Cairo",
+                            fontSize: 17,
+                            fontWeight: FontWeight.w400,
+                          ),
                         )),
-                    Text("لديك حساب بالفعل؟ ")
+                    Text(
+                      "لديك حساب بالفعل؟ ",
+                      style: TextStyle(
+                        fontFamily: "Cairo",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
                   ],
                 ),
                 Row(
@@ -83,14 +103,23 @@ class welcome extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => Alhadith()),
+                        MaterialPageRoute(
+                            builder: (context) => AlhadithScreen()),
                       );
                     },
                     style: OutlinedButton.styleFrom(
                       side:
                           BorderSide(color: Appcolor().secondrcolor, width: 2),
                     ),
-                    child: const Text("تصفح التطبيق   "),
+                    child: Text(
+                      "تصفح التطبيق  ",
+                      style: TextStyle(
+                        fontFamily: "Cairo",
+                        fontSize: 20,
+                        color: Appcolor().primarycolor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
                 Row(
@@ -100,9 +129,21 @@ class welcome extends StatelessWidget {
                         onPressed: () {},
                         child: Text(
                           " إدخال الرمز الخاص ",
-                          style: TextStyle(color: Colors.red),
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontFamily: "Cairo",
+                            fontSize: 17,
+                            fontWeight: FontWeight.w400,
+                          ),
                         )),
-                    Text("  منتسب لمعهد ما ؟ ")
+                    Text(
+                      "  منتسب لمعهد ما ؟ ",
+                      style: TextStyle(
+                        fontFamily: "Cairo",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
                   ],
                 ),
               ],

@@ -61,6 +61,7 @@ class _HistoryAudiosState extends State<HistoryAudios> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           'التسجيلات السابقة',
           style: TextStyle(color: Colors.white),
