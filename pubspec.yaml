@@ -1,0 +1,33 @@
+name: resturant_mang
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  flutter_bloc: ^8.1.4
+  equatable: ^2.0.5
+  dio: ^5.4.0
+  flutter_screenutil: ^5.9.0
+  carousel_slider: ^5.1.1
+  font_awesome_flutter: ^10.9.1
+  smooth_page_indicator: ^1.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/images/products/
+    - assets/icons/
