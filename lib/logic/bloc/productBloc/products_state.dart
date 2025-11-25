@@ -19,4 +19,5 @@ class Productsloaded extends ProductsState {
 class ProductsFailed extends ProductsState {
   final String message;
   ProductsFailed({required this.message}); 
+  
 }

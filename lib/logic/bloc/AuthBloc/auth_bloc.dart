@@ -23,20 +23,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       } catch (e) {
         emit(AuthFailed("unexpected Error:$e"));
+        print("the errore is $e");
       }
     });
 
     on<LoginEvent>((event, emit) async {
       emit(AuthLoading());
       try {
-        await Future.delayed(const Duration(seconds: 1));
-        if (event.email == "test@test.com" && event.password == "123456") {
+        final result = await authRepository.loginUser(
+            email: event.email, password: event.password);
+        if (result) {
           emit(AuthSuccess());
-        } else {
-          emit(AuthFailed("mail or password is incorrect"));
         }
       } catch (e) {
-        emit(AuthFailed("Unexpected error: $e"));
+        emit(AuthFailed(e.toString()));
       }
     });
   }

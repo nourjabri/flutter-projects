@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resturant_mang/Core/constants/config.dart';
-import 'package:resturant_mang/logic/bloc/products_bloc.dart';
+import 'package:resturant_mang/logic/bloc/productBloc/products_bloc.dart';
 import 'package:resturant_mang/presentation/screens/product_detailes.dart';
+import 'package:resturant_mang/presentation/widgets/drawer.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -30,7 +33,7 @@ class _HomeState extends State<Home> {
         ),
       ),
       key: _keydrawer,
-      drawer: const Drawer(),
+      drawer: drawer(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -72,12 +75,12 @@ class _HomeState extends State<Home> {
         unselectedFontSize: 12,
         type: BottomNavigationBarType.fixed,
         items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: ("Home")),
           BottomNavigationBarItem(
-              icon: Icon(Icons.notifications), label: ("notifications")),
+              icon: Icon(Icons.notifications), label: ("Notifications")),
           BottomNavigationBarItem(
-              icon: Icon(Icons.restaurant_menu), label: ("offers")),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person), label: ("my account")),
+              icon: Icon(Icons.restaurant_menu), label: ("Offers")),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: ("Profile")),
         ],
       ),
     );
@@ -124,20 +127,20 @@ class SingleProduct extends StatelessWidget {
               Text(
                 proName!,
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: primaryColor),
               ),
               Container(
                 padding: const EdgeInsets.all(8),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 5,
-                ),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     image: DecorationImage(
                         fit: BoxFit.cover, image: NetworkImage(proImg!))),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 5,
+                ),
               ),
             ],
           ),

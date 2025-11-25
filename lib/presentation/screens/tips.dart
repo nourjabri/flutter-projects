@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resturant_mang/Core/constants/config.dart';
+import 'package:resturant_mang/presentation/screens/login.dart';
 import 'package:resturant_mang/presentation/screens/register.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -40,6 +41,10 @@ class _TipsState extends State<Tips> {
               ),
               alignment: Alignment.bottomRight,
               child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Login()));
+                },
                 child: const Text(
                   "Login",
                   style: TextStyle(color: primaryColor, fontSize: 24),

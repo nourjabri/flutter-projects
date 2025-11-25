@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "217574605598",
+    "project_id": "click-restaurant",
+    "storage_bucket": "click-restaurant.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217574605598:android:6239bac182c31166cb3f0f",
+        "android_client_info": {
+          "package_name": "com.example.resturant_mang"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWrD6EnCOmDt9BjPS5nt55K9npl4PfJRg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

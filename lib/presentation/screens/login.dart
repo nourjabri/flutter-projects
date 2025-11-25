@@ -9,6 +9,8 @@ import 'package:resturant_mang/presentation/screens/home.dart';
 import 'package:resturant_mang/presentation/screens/register.dart';
 
 class Login extends StatefulWidget {
+  const Login({super.key});
+
   @override
   State<Login> createState() => _LoginState();
 }

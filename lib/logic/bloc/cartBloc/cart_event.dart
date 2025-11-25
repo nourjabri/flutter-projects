@@ -23,10 +23,15 @@ class RemoveFromCart extends CartEvent {
 
 class UpdateQuantityCart extends CartEvent {
   final String productId;
-  final String quntity;
+  final int  quntity;
   UpdateQuantityCart({required this.productId, required this.quntity});
   @override
   List<Object> get props => [productId, quntity];
 }
 
 class clearCartEvent extends CartEvent {}
+
+class AddMultipleToCart extends CartEvent {
+  final List<CartItem> items;
+  AddMultipleToCart(this.items); 
+}
