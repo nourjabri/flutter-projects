@@ -1,4 +1,5 @@
 import 'package:fashionproject/Presentation/screens/widgets/logout.dart';
+import 'package:fashionproject/Presentation/screens/widgets/my_orders.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -34,9 +35,9 @@ class MyaccountScreen extends StatelessWidget {
               ),
             ),
             Divider(thickness: 2),
-            Logout(
-              
-            ),
+            MyOrders(),
+            Divider(thickness: 2),
+            Logout(),
           ],
         ),
       ),

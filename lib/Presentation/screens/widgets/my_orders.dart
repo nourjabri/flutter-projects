@@ -1,29 +1,37 @@
+import 'package:dio/dio.dart';
 import 'package:fashionproject/Presentation/Logic/logout/logout_cubit.dart';
+import 'package:fashionproject/Presentation/Logic/order/order_cubit.dart';
 import 'package:fashionproject/Presentation/screens/loginScreens.dart';
 import 'package:fashionproject/core/utils/session_manger.dart';
-import 'package:fashionproject/domain/useCase/logoutUseCase.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:fashionproject/data/Repository/order_remotedata_Impl.dart';
+import 'package:fashionproject/data/Repository/order_repository_impl.dart';
+import 'package:fashionproject/domain/useCase/orderUseCase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Logout extends StatelessWidget {
-  const Logout({super.key});
+class MyOrders extends StatelessWidget {
+  MyOrders({super.key});
+  final dio = Dio();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LogoutCubit(LogoutUseCase()),
-      child: BlocListener<LogoutCubit, LogoutState>(
+      create: (context) => OrderCubit(
+        Orderusecase(OrderRepositoryImpl(OrderRemoteDataSourceImpl(dio))),
+      ),
+      child: BlocListener<OrderCubit, OrderState>(
         listener: (context, state) {
-          if (state is LogoutSuccess) {
+          if (state is OrderLoaded) {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => Loginscreen()),
               (Route<dynamic> route) => false,
             );
           }
-
-          if (state is LogoutError) {
+          if (state is OrderLoading) {
+            CircularProgressIndicator();
+          }
+          if (state is OrderError) {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(state.message)));
@@ -63,14 +71,14 @@ void _showLogoutDialog(BuildContext context) {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text("cancel", style: TextStyle(color: Colors.black)),
+          child: Text("cancel"),
         ),
         TextButton(
           onPressed: () {
             Navigator.pop(context);
             context.read<LogoutCubit>().logout();
           },
-          child: Text("Logout", style: TextStyle(color: Colors.black)),
+          child: Text("Logout"),
         ),
       ],
     ),

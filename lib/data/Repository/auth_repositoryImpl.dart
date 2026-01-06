@@ -1,7 +1,7 @@
 import 'package:fashionproject/data/models/register/registerRequest.dart';
 import 'package:fashionproject/domain/Entities/user_entity.dart';
-import 'package:fashionproject/domain/Repositories/auth_Repository.dart';
-import 'package:fashionproject/domain/services/registerRemoteDataSource.dart';
+import 'package:fashionproject/domain/Repositories/auth_repository.dart';
+import 'package:fashionproject/domain/Repositories/registerRemoteDataSource.dart';
 
 class AuthRepositoryimpl implements AuthRepository {
   final RegisterRemoteDataSource remoteDataSource;
