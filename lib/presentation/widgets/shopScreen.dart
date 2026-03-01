@@ -55,7 +55,7 @@ class _ShopScreenState extends State<ShopScreen> {
                           context.read<ShopCubit>().updateList();
                         },
                       )
-                    : Text("data"),
+                    : Text(""),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),

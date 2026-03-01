@@ -7,26 +7,13 @@ import 'package:quranapp/data/repositories/repository_impl.dart';
 import 'package:quranapp/presentation/cubit/shop_cubit.dart';
 import 'package:quranapp/presentation/widgets/shopScreen.dart';
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await dotenv.load(fileName: ".env");
-//   final remote = ShopRemoteDataSourceImpl(http.Client());
-//   final repository = ShopRepositoryImpl(remote);
-//   runApp(
-//     BlocProvider(create: (context) => ShopCubit(repository), child: MyApp()),
-//   );
-// }
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+  final remote = ShopRemoteDataSourceImpl(http.Client());
+  final repository = ShopRepositoryImpl(remote);
   runApp(
-    BlocProvider(
-      create: (_) {
-        final remote = ShopRemoteDataSourceImpl(http.Client());
-        final repo = ShopRepositoryImpl(remote);
-        return ShopCubit(repo)..fetchShops();
-      },
-      child: MyApp(),
-    ),
+    BlocProvider(create: (context) => ShopCubit(repository), child: MyApp()),
   );
 }
 
