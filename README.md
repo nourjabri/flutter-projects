@@ -1,17 +1,18 @@
-# quranapp
+# Grocery Store
 
-A new Flutter project.
+A Flutter application that displays a list of grocery stores using Clean Architecture and BLoC (Cubit) for state management.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+Architecture
+The project follows Clean Architecture principles to ensure separation of concerns and scalability.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Domain Layer: Contains business logic (Entities) and repository contracts (Abstract Repositories).
+Data Layer: Implements repositories, handles data fetching (API calls), and maps JSON to models.
+Presentation Layer: Handles UI logic and state management using flutter_bloc (Cubit).
+Features
+List View: Displays a scrollable list of grocery stores.
+State Management: Uses Cubit (part of the BLoC library) to manage Loading, Success, Error, and Empty states.
+Error Handling: Gracefully handles network failures and displays a retry button.
+Security: API Keys are excluded from version control using .env files.
