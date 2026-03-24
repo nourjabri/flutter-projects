@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:resturant_mang/Core/constants/config.dart';
-import 'package:resturant_mang/presentation/screens/login.dart';
-import 'package:resturant_mang/presentation/screens/register.dart';
+import 'package:clickresturant/Core/constants/config.dart';
+import 'package:clickresturant/presentation/screens/login.dart';
+import 'package:clickresturant/presentation/screens/register.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Tips extends StatefulWidget {
@@ -13,18 +13,18 @@ class _TipsState extends State<Tips> {
   var tipsarr = [
     {
       "title": "Mange your restaurant in easy way",
-      "info": "Qlick now",
+      "info": "Click now",
       "image": "assets/images/2.png",
     },
     {
       "title": "Mange your restaurant in easy way",
-      "info": "Qlick now",
+      "info": "Click now",
       "image": "assets/images/3.png",
     },
     {
       "title": "Mange your restaurant in easy way",
-      "info": "Qlick now",
-      "image": "assets/images/3.png",
+      "info": "Click now",
+      "image": "assets/images/4.png",
     }
   ];
 
@@ -34,22 +34,6 @@ class _TipsState extends State<Tips> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Container(
-              padding: const EdgeInsets.only(
-                top: 64.0,
-                right: 24.0,
-              ),
-              alignment: Alignment.bottomRight,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Login()));
-                },
-                child: const Text(
-                  "Login",
-                  style: TextStyle(color: primaryColor, fontSize: 24),
-                ),
-              )),
           SizedBox(
               height: myheight * 4,
               child: Column(
@@ -88,24 +72,44 @@ class _TipsState extends State<Tips> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      MaterialButton(
-                        onPressed: () {
+                      Container(
+                          height: 60,
+                          width: 250,
+                          decoration: BoxDecoration(
+                              color: fourColor,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Login()));
+                            },
+                            child: const Center(
+                              child: Text(
+                                "Let's get started",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ),
+                          )),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      GestureDetector(
+                        onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Register()));
                         },
-                        child: Container(
-                          height: myheight / 3,
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                              color: fourColor),
-                          child: const Text(
-                            "Create account",
-                            style:
-                                TextStyle(color: secondryColor, fontSize: 24),
+                        child: const Text(
+                          "Create account",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.black,
                           ),
                         ),
                       ),

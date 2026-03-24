@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resturant_mang/Core/constants/config.dart';
-import 'package:resturant_mang/logic/bloc/cartBloc/cart_bloc.dart';
+import 'package:clickresturant/Core/constants/config.dart';
+import 'package:clickresturant/logic/bloc/cartBloc/cart_bloc.dart';
+import 'package:clickresturant/presentation/screens/dilvery_detailes.dart';
 
 class Shopping extends StatefulWidget {
   const Shopping({super.key});
@@ -16,11 +17,18 @@ class _ShoppingState extends State<Shopping> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        centerTitle: true,
+        title: const Text(
+          "My Cart",
+          style: TextStyle(
+              fontSize: 20, color: fourColor, fontWeight: FontWeight.bold),
+        ),
+        elevation: 0.0,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios, color: thirdColor),
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
         ),
-        title: const Text("My Cart", style: TextStyle(color: thirdColor)),
       ),
       body: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
@@ -180,9 +188,23 @@ class _ShoppingState extends State<Shopping> {
           onTap: () {
             ScaffoldMessenger.of(context)
                 .showSnackBar(const SnackBar(content: Text("Checkout ")));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => DilveryDetailes()));
           },
-          child: const Text("Continue",
-              style: TextStyle(color: Colors.white, fontSize: 22)),
+          child: Container(
+              height: 60,
+              padding: const EdgeInsets.only(
+                  left: 20.0, right: 20.0, top: 10.0, bottom: 7.0),
+              decoration: BoxDecoration(
+                  color: fourColor, borderRadius: BorderRadius.circular(16)),
+              child: const Text(
+                "Continue",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: secondryColor,
+                ),
+              )),
         ),
       ),
     );

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:resturant_mang/Core/constants/config.dart';
-import 'package:resturant_mang/presentation/screens/home.dart';
+import 'package:clickresturant/Core/constants/config.dart';
+import 'package:clickresturant/presentation/screens/home.dart';
 
 class ForgetPassword extends StatefulWidget {
+  const ForgetPassword({super.key});
+
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
 }
@@ -11,9 +13,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         elevation: 0.0,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -45,9 +45,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       const SizedBox(
                         height: 100,
                         child: Text(
-                          "Please enter your email to receive a link to create a new password via email",
+                          "Please enter your email to reset the password",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.grey,
                             fontSize: 16,
                           ),
                         ),
@@ -60,7 +60,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             color: Colors.white),
                         child: TextFormField(
                           decoration: const InputDecoration(
-                              hintText: "Email", border: InputBorder.none),
+                              hintText: " Your Email",
+                              border: InputBorder.none),
                           validator: (String? value) {
                             if (value!.isEmpty ||
                                 value.indexOf(".") == -1 ||
@@ -84,7 +85,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               borderRadius: BorderRadius.circular(24.0),
                               color: fourColor),
                           child: const Text(
-                            "Send ",
+                            "Reset Password ",
                             style: TextStyle(color: Colors.white, fontSize: 16),
                           ),
                         ),

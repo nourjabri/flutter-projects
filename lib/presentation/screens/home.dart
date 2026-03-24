@@ -1,9 +1,14 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:clickresturant/presentation/screens/notification.dart';
+import 'package:clickresturant/presentation/screens/offers.dart';
+import 'package:clickresturant/presentation/widgets/single%20product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resturant_mang/Core/constants/config.dart';
-import 'package:resturant_mang/logic/bloc/productBloc/products_bloc.dart';
-import 'package:resturant_mang/presentation/screens/product_detailes.dart';
-import 'package:resturant_mang/presentation/widgets/drawer.dart';
+import 'package:clickresturant/Core/constants/config.dart';
+import 'package:clickresturant/logic/bloc/UserProfile/user_profile_bloc.dart';
+import 'package:clickresturant/logic/bloc/productBloc/products_bloc.dart';
+import 'package:clickresturant/presentation/screens/profile.dart';
+import 'package:clickresturant/presentation/widgets/drawer.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,6 +19,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _keydrawer = GlobalKey<ScaffoldState>();
+  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -37,6 +43,19 @@ class _HomeState extends State<Home> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          CarouselSlider(
+            items: [
+              Card(
+                child: Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(image: NetworkImage(""))),
+                ),
+              )
+            ],
+            options: CarouselOptions(
+              height: 300,
+            ),
+          ),
           Expanded(child: BlocBuilder<ProductsBloc, ProductsState>(
               builder: (context, state) {
             if (state is ProductsLoading) {
@@ -62,12 +81,39 @@ class _HomeState extends State<Home> {
                         proImg: product.proImage);
                   });
             }
-            return const SizedBox();
+            return const Center(
+                child: Text(
+              "Please check your internet connection",
+              style: TextStyle(fontSize: 24),
+            ));
           })),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
+        onTap: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+          if (index == 3) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => UserProfilePage()));
+
+            context.read<UserProfileBloc>().add(LoadUserPRofile());
+          }
+          if (index == 2) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Offers()));
+          }
+          if (index == 1) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NotificationScreen()));
+          }
+          if (index == 0) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => const Home()));
+          }
+        },
+        currentIndex: selectedIndex,
         selectedItemColor: thirdColor,
         selectedFontSize: 16,
         unselectedItemColor: primaryColor,
@@ -82,69 +128,6 @@ class _HomeState extends State<Home> {
               icon: Icon(Icons.restaurant_menu), label: ("Offers")),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: ("Profile")),
         ],
-      ),
-    );
-  }
-}
-
-class SingleProduct extends StatelessWidget {
-  final String? proId;
-  final String? proName;
-  final String? proDec;
-  final String? proImg;
-  final double proPrice;
-
-  SingleProduct(
-      {required this.proId,
-      required this.proImg,
-      required this.proDec,
-      required this.proName,
-      required this.proPrice});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ProductsDetail(
-                        proId: proId.toString(),
-                        proDec: proDec.toString(),
-                        proImg: proImg.toString(),
-                        proName: proName.toString(),
-                        price: proPrice.toDouble(),
-                      )));
-        },
-        child: Container(
-          padding: const EdgeInsets.all(5),
-          child: Column(
-            verticalDirection: VerticalDirection.down,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                proName!,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: primaryColor),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                        fit: BoxFit.cover, image: NetworkImage(proImg!))),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 5,
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

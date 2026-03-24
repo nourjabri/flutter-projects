@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:resturant_mang/Core/constants/config.dart';
-import 'package:resturant_mang/presentation/screens/getStart.dart';
+import 'package:clickresturant/Core/constants/config.dart';
+import 'package:clickresturant/presentation/screens/getStart.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -32,7 +32,7 @@ class _SplashState extends State<Splash> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => get_start()),
+                  MaterialPageRoute(builder: (context) => GetStart()),
                 );
               },
               child: const Text("Welcome in Click Restaurant ",

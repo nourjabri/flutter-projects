@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resturant_mang/Core/constants/config.dart';
-import 'package:resturant_mang/logic/bloc/AuthBloc/auth_bloc.dart';
-import 'package:resturant_mang/logic/bloc/AuthBloc/auth_event.dart';
-import 'package:resturant_mang/logic/bloc/AuthBloc/auth_state.dart';
-import 'package:resturant_mang/presentation/screens/login.dart';
+import 'package:clickresturant/Core/constants/config.dart';
+import 'package:clickresturant/logic/bloc/AuthBloc/auth_bloc.dart';
+import 'package:clickresturant/logic/bloc/AuthBloc/auth_event.dart';
+import 'package:clickresturant/logic/bloc/AuthBloc/auth_state.dart';
+import 'package:clickresturant/presentation/screens/login.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -39,8 +39,15 @@ class _RegisterState extends State<Register> {
         }
       },
       child: Scaffold(
-        backgroundColor: Colors.grey[300],
         appBar: AppBar(
+          centerTitle: true,
+          title: const Text(
+            "Register Now",
+            style: TextStyle(
+              color: primaryColor,
+              fontSize: 20,
+            ),
+          ),
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           leading: IconButton(
@@ -59,16 +66,6 @@ class _RegisterState extends State<Register> {
                   child: Form(
                     child: ListView(
                       children: <Widget>[
-                        const SizedBox(
-                          height: 100,
-                          child: Text(
-                            "Create your account",
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontSize: 28,
-                            ),
-                          ),
-                        ),
                         Container(
                           margin: const EdgeInsets.all(16),
                           padding:
@@ -167,8 +164,11 @@ class _RegisterState extends State<Register> {
                             },
                           ),
                         ),
-                        MaterialButton(
-                          onPressed: () {
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () {
                             context.read<AuthBloc>().add(RegisterEvent(
                                 fristName: firstName.text,
                                 lastName: lastName.text,
@@ -177,27 +177,30 @@ class _RegisterState extends State<Register> {
                                 phone: phone.text));
                           },
                           child: Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.all(8),
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(24.0),
-                                color: fourColor),
-                            child: const Text(
-                              "Register now",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
-                            ),
-                          ),
+                              height: 60,
+                              padding: const EdgeInsets.only(
+                                  left: 20.0,
+                                  right: 20.0,
+                                  top: 10.0,
+                                  bottom: 7.0),
+                              decoration: BoxDecoration(
+                                  color: fourColor,
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: const Text(
+                                "Register now",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: secondryColor,
+                                ),
+                              )),
                         ),
                       ],
                     ),
                   ),
                 ),
-                const Padding(padding: EdgeInsets.all(10)),
                 Container(
-                  padding: const EdgeInsets.only(bottom: 24),
+                  padding: const EdgeInsets.only(bottom: 50),
                   alignment: Alignment.center,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -206,7 +209,7 @@ class _RegisterState extends State<Register> {
                         "Already an account? ",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 24,
+                          fontSize: 20,
                         ),
                       ),
                       GestureDetector(

@@ -1,7 +1,7 @@
   import 'package:bloc/bloc.dart';
   import 'package:equatable/equatable.dart';
-  import 'package:resturant_mang/data/model/product_model.dart';
-  import 'package:resturant_mang/data/repositories/remote/product_service.dart';
+  import 'package:clickresturant/data/model/product_model.dart';
+  import 'package:clickresturant/data/repositories/remote/product_service.dart';
 
   part 'products_event.dart';
   part 'products_state.dart';

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:resturant_mang/data/model/cart_model.dart';
+import 'package:clickresturant/data/model/cart_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'cart_event.dart';

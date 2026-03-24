@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:resturant_mang/data/model/product_model.dart';
-
+import 'package:clickresturant/data/model/product_model.dart';
 
 class ProductService {
   final Dio requestHandler;

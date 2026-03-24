@@ -1,5 +1,5 @@
-name: resturant_mang
-description: "A new Flutter project."
+name: clickresturant
+description: "A Flutter project for mange your restaurant's online and sell goods easily and by one click  ."
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -21,6 +21,8 @@ dependencies:
   shared_preferences: ^2.5.3
   firebase_auth: ^6.1.2
   firebase_core: ^4.2.1
+  cloud_firestore: ^6.1.0
+  internet_connection_checker: ^3.0.1
   
   
 

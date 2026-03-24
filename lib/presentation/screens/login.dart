@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:resturant_mang/Core/constants/config.dart';
-import 'package:resturant_mang/logic/bloc/AuthBloc/auth_bloc.dart';
-import 'package:resturant_mang/logic/bloc/AuthBloc/auth_event.dart';
-import 'package:resturant_mang/logic/bloc/AuthBloc/auth_state.dart';
-import 'package:resturant_mang/presentation/screens/forgetpassword.dart';
-import 'package:resturant_mang/presentation/screens/home.dart';
-import 'package:resturant_mang/presentation/screens/register.dart';
+import 'package:clickresturant/Core/constants/config.dart';
+import 'package:clickresturant/logic/bloc/AuthBloc/auth_bloc.dart';
+import 'package:clickresturant/logic/bloc/AuthBloc/auth_event.dart';
+import 'package:clickresturant/logic/bloc/AuthBloc/auth_state.dart';
+import 'package:clickresturant/presentation/screens/forgetpassword.dart';
+import 'package:clickresturant/presentation/screens/home.dart';
+import 'package:clickresturant/presentation/screens/register.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -42,9 +42,13 @@ class _LoginState extends State<Login> {
         }
       },
       child: Scaffold(
-        backgroundColor: Colors.grey[300],
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          title: const Text(
+            "Login",
+            style: TextStyle(
+                fontSize: 24, color: fourColor, fontWeight: FontWeight.bold),
+          ),
           elevation: 0.0,
           leading: IconButton(
             onPressed: () => Navigator.pop(context),
@@ -57,21 +61,12 @@ class _LoginState extends State<Login> {
           child: Container(
             margin: const EdgeInsets.all(10.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Expanded(
                   child: Form(
                     child: ListView(
                       children: <Widget>[
-                        const SizedBox(
-                          height: 100,
-                          child: Text(
-                            "Login to your account",
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontSize: 28,
-                            ),
-                          ),
-                        ),
                         Container(
                           margin: const EdgeInsets.all(16),
                           padding:
@@ -119,13 +114,14 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 180),
+                          padding: const EdgeInsets.only(left: 180, bottom: 20),
                           child: GestureDetector(
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ForgetPassword()));
+                                      builder: (context) =>
+                                          const ForgetPassword()));
                             },
                             child: const Text(
                               "Forget Your Password",
@@ -133,33 +129,75 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                         ),
-                        MaterialButton(
-                          onPressed: () {
+                        GestureDetector(
+                          onTap: () {
                             context.read<AuthBloc>().add(LoginEvent(
                                 email: email.text, password: password.text));
                           },
                           child: Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.all(8),
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(24.0),
-                                color: fourColor),
-                            child: const Text(
-                              "Login",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
-                            ),
-                          ),
+                              height: 60,
+                              padding: const EdgeInsets.only(
+                                  left: 20.0,
+                                  right: 20.0,
+                                  top: 10.0,
+                                  bottom: 7.0),
+                              decoration: BoxDecoration(
+                                  color: fourColor,
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: const Text(
+                                "Login",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: secondryColor,
+                                ),
+                              )),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Row(children: <Widget>[
+                            Expanded(child: Divider()),
+                            Text("OR"),
+                            Expanded(child: Divider()),
+                          ]),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            context.read<AuthBloc>().add(LoginEvent(
+                                email: email.text, password: password.text));
+                          },
+                          child: Container(
+                              height: 60,
+                              padding: const EdgeInsets.only(
+                                  left: 20.0,
+                                  right: 20.0,
+                                  top: 10.0,
+                                  bottom: 7.0),
+                              decoration: BoxDecoration(
+                                  border: BoxBorder.all(
+                                      color: Colors.grey, width: 2),
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset("assets/images/google.png"),
+                                  const Text(
+                                    "Login with Google",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              )),
                         ),
                       ],
                     ),
                   ),
                 ),
-                const Padding(padding: EdgeInsets.all(10)),
                 Container(
-                  padding: const EdgeInsets.only(bottom: 24),
+                  padding: const EdgeInsets.only(bottom: 50),
                   alignment: Alignment.center,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -168,7 +206,7 @@ class _LoginState extends State<Login> {
                         "Don't have  an account? ",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ),
                       GestureDetector(

@@ -5,6 +5,7 @@ sealed class CartState extends Equatable {
 
   @override
   List<Object> get props => [];
+  
 }
 
 class CartInitial extends CartState {

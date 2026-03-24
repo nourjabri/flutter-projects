@@ -1,5 +1,3 @@
-
-
 abstract class AuthEvent {}
 
 class RegisterEvent extends AuthEvent {

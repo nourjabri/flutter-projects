@@ -1,6 +1,6 @@
-# resturant_mang
+# clickresturant
 
-A new Flutter project.
+A specialized application for managing orders and products
 
 ## Getting Started
 

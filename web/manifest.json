@@ -1,6 +1,6 @@
 {
-    "name": "resturant_mang",
-    "short_name": "resturant_mang",
+    "name": "clickresturant",
+    "short_name": "clickresturant",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
