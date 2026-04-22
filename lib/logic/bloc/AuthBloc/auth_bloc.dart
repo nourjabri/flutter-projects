@@ -23,35 +23,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthFailed("Registration failed"));
         }
       } catch (e) {
-        emit(AuthFailed("unexpected Error:$e"));
-        print("the errore is $e");
+        emit(AuthFailed("Unexpected registration error"));
       }
     });
 
     on<LoginEvent>((event, emit) async {
       emit(AuthLoading());
       try {
-        final UserCredential = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-                email: event.email, password: event.password);
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: event.email, password: event.password);
         final result = await authRepository.loginUser(
             email: event.email, password: event.password);
         if (result) {
           emit(AuthSuccess());
         }
       } on FirebaseAuthException catch (e) {
-        String message = "";
         if (e.code == 'user-not-found') {
-          message = "this email is not register yet";
         } else if (e.code == 'wrong-password') {
-          message = 'the password is not correct';
         } else if (e.code == 'invalid-email') {
-          message = 'the email is not correct';
-        } else {
-          message = "please try again";
-        }
+        } else {}
         emit(AuthFailed(e.toString()));
-        emit(AuthFailed("Unexpected error:$e"));
+        emit(AuthFailed("Login failed. Please try again."));
       }
     });
   }

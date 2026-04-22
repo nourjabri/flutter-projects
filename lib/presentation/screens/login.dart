@@ -33,7 +33,7 @@ class _LoginState extends State<Login> {
         if (state is AuthSuccess) {
           Navigator.pop(context);
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Home()));
+              context, MaterialPageRoute(builder: (context) => const Home()));
         }
         if (state is AuthFailed) {
           Navigator.pop(context);
@@ -78,13 +78,12 @@ class _LoginState extends State<Login> {
                             controller: email,
                             decoration: const InputDecoration(
                                 hintText: "Email", border: InputBorder.none),
-                            validator: (String? value) {
-                              if (value!.isEmpty ||
-                                  value.indexOf(".") == -1 ||
-                                  value.indexOf("@") == -1) {
-                                return "Please enter your email";
-                              }
-                            },
+                            validator: (value) => (value?.isEmpty ?? true)
+                                ? "Please enter your email"
+                                : !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                        .hasMatch(value!)
+                                    ? "Please enter a valid email address"
+                                    : null,
                           ),
                         ),
                         Container(
@@ -103,11 +102,11 @@ class _LoginState extends State<Login> {
                                   decoration: const InputDecoration(
                                       hintText: "Password",
                                       border: InputBorder.none),
-                                  validator: (String? value) {
-                                    if (value!.isEmpty || value.length < 6) {
-                                      return "Please enter your password";
-                                    }
-                                  },
+                                  validator: (value) => (value?.isEmpty ??
+                                              true) ||
+                                          value!.length < 6
+                                      ? "Password must be at least 6 characters"
+                                      : null,
                                 ),
                               ),
                             ],

@@ -7,11 +7,13 @@ abstract class AddressEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadedAddresEvent extends AddressEvent {}
+class LoadAddressEvent extends AddressEvent {}
 
-class SaveAddressEvevt extends AddressEvent {
+class GetCurrentLocation extends AddressEvent {}
+
+class SaveAddressEvent extends AddressEvent {
   final AddressModel address;
-  SaveAddressEvevt({ required this.address}); 
-  @override 
-  List<Object> get props=>[]; 
+  const SaveAddressEvent({required this.address});
+  @override
+  List<Object> get props => [];
 }

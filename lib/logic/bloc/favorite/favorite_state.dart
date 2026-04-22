@@ -17,6 +17,7 @@ class FavoriteLoaded extends FavoriteState {
   final List<ProductModel> items;
   FavoriteLoaded(this.items);
 }
+class FavoriteEmpty extends FavoriteState{}
 
 class FavoriteError extends FavoriteState {
   final String message;

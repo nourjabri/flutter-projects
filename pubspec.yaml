@@ -11,25 +11,30 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  flutter_bloc: ^8.1.4
+  flutter_bloc: ^9.1.1
   equatable: ^2.0.5
   dio: ^5.4.0
   flutter_screenutil: ^5.9.0
   carousel_slider: ^5.1.1
   
-  smooth_page_indicator: ^1.2.1
-  shared_preferences: ^2.5.3
-  firebase_auth: ^6.1.2
-  firebase_core: ^4.2.1
-  cloud_firestore: ^6.1.0
-  internet_connection_checker: ^3.0.1
+  smooth_page_indicator: ^1.1.0
+  shared_preferences: ^2.2.3
+  firebase_auth: ^5.1.1
+  firebase_core: ^3.1.1
+  cloud_firestore: ^5.6.12
+  http: 
+  internet_connection_checker: 
+  geolocator: 
+  geocoding: 
+  flutter_map:
+  latlong2: ^0.9.1
   
   
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true

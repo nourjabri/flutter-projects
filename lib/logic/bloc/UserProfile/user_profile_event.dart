@@ -4,12 +4,12 @@ abstract class UserProfileEvent {}
 
 class LoadUserPRofile extends UserProfileEvent {}
 
-class UpdatuserProfile extends UserProfileEvent {
+class UpdateUserProfileEvent extends UserProfileEvent {
   final String firstName;
   final String lastName;
   final String email;
   final String phone;
-  UpdatuserProfile.UpdateUserProfile(
+  UpdateUserProfileEvent(
       {required this.firstName,
       required this.lastName,
       required this.email,

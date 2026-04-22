@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 class AuthRepository {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -53,8 +52,7 @@ class AuthRepository {
           await FirebaseFirestore.instance.collection("users").doc(uid).get();
       return doc.data();
     } catch (e) {
-      debugPrint("Get user data error");
-      return null;
+      throw Exception("Failed to get user data: $e");
     }
   }
 }

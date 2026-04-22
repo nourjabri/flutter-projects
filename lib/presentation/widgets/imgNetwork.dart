@@ -6,11 +6,11 @@ class HomeSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       child: CarouselSlider.builder(
           itemCount: imgList.length,
           itemBuilder: (context, index, realIdx) {
-            return Container(
+            return SizedBox(
               child: Image.network(imgList[index]),
             );
           },

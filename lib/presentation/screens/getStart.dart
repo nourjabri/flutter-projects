@@ -27,7 +27,7 @@ class _GetStartState extends State<GetStart> {
           Container(
             height: myheight / 2,
             padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: primaryColor,
                 boxShadow: [
                   BoxShadow(
@@ -64,7 +64,7 @@ class _GetStartState extends State<GetStart> {
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return Login();
+                          return const Login();
                         }));
                       },
                       child: Container(

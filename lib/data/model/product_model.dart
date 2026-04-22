@@ -34,11 +34,13 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      proId: json["proId"].toString(),
+      proId: json["proId"]?.toString() ?? "",
       proName: json["proName"] ?? "",
       proDec: json["proDec"] ?? "",
       proImage: json["proImage"] ?? "",
-      proPrice: (json["proPrice"] as num).toDouble(),
+      proPrice: json["proPrice"] == null
+          ? 0.0
+          : double.tryParse(json["proPrice"].toString()) ?? 0.0,
     );
   }
 

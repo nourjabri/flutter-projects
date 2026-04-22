@@ -4,13 +4,11 @@ import 'package:clickresturant/data/model/favorite.dart';
 class FavoriteService {
   Future<bool> addToFavorite(FavoriteModel favorite) async {
     try {
-      Response response = await Dio().post(
-          "https://67c137a161d8935867e235b4.mockapi.io/products",
+      await Dio().post("https://67c137a161d8935867e235b4.mockapi.io/products",
           data: favorite.tomap());
       return true;
     } catch (e) {
-      print(e.toString());
-      return false;
+      throw Exception("Failed to add favorite: $e");
     }
   }
 
@@ -21,7 +19,7 @@ class FavoriteService {
       return List.generate(response.data.length,
           (index) => FavoriteModel.fromMap(response.data[index]));
     } catch (e) {
-      return [];
+      throw Exception("Failed to load favorites: $e");
     }
   }
 }

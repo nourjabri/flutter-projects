@@ -31,7 +31,7 @@ class _RegisterState extends State<Register> {
         } else if (state is AuthSuccess) {
           Navigator.pop(context);
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Login()));
+              context, MaterialPageRoute(builder: (context) => const Login()));
         } else if (state is AuthFailed) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context)
@@ -102,6 +102,7 @@ class _RegisterState extends State<Register> {
                               if (value!.isEmpty || value.isEmpty) {
                                 return "Please enter your name";
                               }
+                              return null;
                             },
                           ),
                         ),
@@ -117,11 +118,18 @@ class _RegisterState extends State<Register> {
                             decoration: const InputDecoration(
                                 hintText: "Email", border: InputBorder.none),
                             validator: (String? value) {
-                              if (value!.isEmpty ||
-                                  !value.contains(".") ||
-                                  !value.contains("@")) {
+                              if (value == null || value.isEmpty) {
                                 return "Please enter your email";
                               }
+
+                              final emailRegExp =
+                                  RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+                              if (!emailRegExp.hasMatch(value)) {
+                                return "Please enter a valid email address";
+                              }
+
+                              return null;
                             },
                           ),
                         ),
@@ -141,6 +149,7 @@ class _RegisterState extends State<Register> {
                               if (value!.isEmpty || value.length < 6) {
                                 return "Please enter your password";
                               }
+                              return "Password";
                             },
                           ),
                         ),
@@ -161,6 +170,7 @@ class _RegisterState extends State<Register> {
                               if (value!.isEmpty || value.isEmpty) {
                                 return "Please enter your number";
                               }
+                              return "phone number";
                             },
                           ),
                         ),
@@ -214,8 +224,10 @@ class _RegisterState extends State<Register> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Login()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Login()));
                         },
                         child: const Text(
                           "Login",

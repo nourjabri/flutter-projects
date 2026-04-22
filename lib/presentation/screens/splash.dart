@@ -32,7 +32,7 @@ class _SplashState extends State<Splash> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => GetStart()),
+                  MaterialPageRoute(builder: (context) => const GetStart()),
                 );
               },
               child: const Text("Welcome in Click Restaurant ",

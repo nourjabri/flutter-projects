@@ -11,7 +11,7 @@ class AddressModel {
       required this.street,
       required this.building,
       required this.area});
-  Map<String, dynamic> tomap() {
+  Map<String, dynamic> toMap() {
     return {
       "city": city,
       "floor": floor,

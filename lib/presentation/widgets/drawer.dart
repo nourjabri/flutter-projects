@@ -10,7 +10,7 @@ import 'package:clickresturant/logic/bloc/UserProfile/user_profile_bloc.dart';
 //     phone: phone,
 //     email: email,
 //     firstName: firstName);
-Widget drawer() {
+Widget HomeDrawer() {
   return SizedBox(
     child: ListView(
       children: <Widget>[
@@ -27,7 +27,7 @@ Widget drawer() {
             if (state is UserProfileLoaded) {
               return UserAccountsDrawerHeader(
                 accountName: const Text(
-                  "name is.",
+                  "name is ",
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
                 accountEmail: const Text(

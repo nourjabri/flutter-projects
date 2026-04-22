@@ -63,18 +63,22 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               hintText: " Your Email",
                               border: InputBorder.none),
                           validator: (String? value) {
-                            if (value!.isEmpty ||
-                                value.indexOf(".") == -1 ||
-                                value.indexOf("@") == -1) {
-                              return "Please enter your email";
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Your Email";
                             }
+                            final emailRegExp =
+                                RegExp(r'^[\w-\.]+@([\w-]+\.[w-]{2,9}$)');
+                                if(emailRegExp.hasMatch(value)){
+                                  return "Please enter valid Email"; 
+                                }
+                                return null; 
                           },
                         ),
                       ),
                       MaterialButton(
                         onPressed: () {
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Home()));
+                              MaterialPageRoute(builder: (context) => const Home()));
                         },
                         child: Container(
                           alignment: Alignment.center,

@@ -12,15 +12,30 @@ class ProductService {
     try {
       final response = await requestHandler.get(baseUrl);
 
-      if (response.statusCode == 200) {
-        List data = response.data;
+      print("RESPONSE: ${response.data}");
+      print("TYPE: ${response.data.runtimeType}");
 
-        return data.map((json) => ProductModel.fromJson(json)).toList();
+      if (response.statusCode == 200) {
+        if (response.data is List) {
+          final List data = response.data;
+
+          return data.map((json) => ProductModel.fromJson(json)).toList();
+        }
+
+        // 👇 إذا رجع Map
+        else if (response.data is Map) {
+          final List data = response.data['data'] ?? [];
+
+          return data.map((json) => ProductModel.fromJson(json)).toList();
+        } else {
+          throw Exception("Unexpected response format");
+        }
       } else {
-        throw Exception("Failed to load products");
+        throw Exception("Status code: ${response.statusCode}");
       }
     } catch (e) {
-      throw Exception("Error: $e");
+      print("🔥 SERVICE ERROR: $e");
+      throw Exception(e.toString());
     }
   }
 }

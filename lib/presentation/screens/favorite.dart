@@ -1,3 +1,4 @@
+import 'package:clickresturant/presentation/widgets/navBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clickresturant/Core/constants/config.dart';
@@ -12,13 +13,17 @@ class Favorite extends StatefulWidget {
 }
 
 class _FavoriteState extends State<Favorite> {
-    List<FavoriteModel> items = [];
+  List<FavoriteModel> items = [];
   @override
-
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+        ),
+        centerTitle: true,
         title: const Text(
           "My Favorite",
           style: TextStyle(
@@ -30,10 +35,12 @@ class _FavoriteState extends State<Favorite> {
           if (state is FavoriteLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-
-          if (state is FavoriteLoaded && state.items.isEmpty) {
-            return const Center(child: Text("No favorites yet"));
+          if (state is FavoriteEmpty) {
+            return const Text("No Favorite Itmes");
           }
+          // if (state is FavoriteLoaded && state.items.isEmpty) {
+          //   return const Center(child: Text("No favorites yet"));
+          // }
 
           if (state is FavoriteLoaded) {
             return ListView.builder(
@@ -56,9 +63,12 @@ class _FavoriteState extends State<Favorite> {
             );
           }
 
-          return const SizedBox();
+          return const SizedBox(
+            child: Text("Please Check Your Internet connection"),
+          );
         },
       ),
+      bottomNavigationBar: const BottomBar(),
     );
   }
 }

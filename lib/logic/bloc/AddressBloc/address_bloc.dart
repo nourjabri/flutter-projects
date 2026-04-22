@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:clickresturant/data/model/address_model.dart';
-import 'package:clickresturant/data/repositories/remote/Adress_repository.dart';
+import 'package:clickresturant/data/repositories/remote/Address_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 part 'address_event.dart';
 part 'address_state.dart';
@@ -11,13 +11,12 @@ part 'address_state.dart';
 class AddressBloc extends Bloc<AddressEvent, AddressState> {
   final AddressRepository addressRepository;
 
-  AddressBloc(this.addressRepository) : super(AddressInitial()) {
-    on<LoadedAddresEvent>(_load);
-    on<SaveAddressEvevt>(_save);
+  AddressBloc({required this.addressRepository}) : super(AddressInitial()) {
+    on<LoadAddressEvent>(_load);
+    on<SaveAddressEvent>(_save);
   }
 
-  Future<void> _load(
-      LoadedAddresEvent event, Emitter<AddressState> emit) async {
+  Future<void> _load(LoadAddressEvent event, Emitter<AddressState> emit) async {
     emit(AddressLoading());
 
     try {
@@ -34,23 +33,23 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
 
       emit(AddressLoaded(addressModel: address));
     } catch (e) {
-      emit(AddressError(message: e.toString()));
+      emit(AddressError(message: "Failed to load address"));
     }
   }
 
-  Future<void> _save(SaveAddressEvevt event, Emitter<AddressState> emit) async {
+  Future<void> _save(SaveAddressEvent event, Emitter<AddressState> emit) async {
     emit(AddressSaving());
 
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString("address", jsonEncode(event.address.tomap()));
+      await prefs.setString("address", jsonEncode(event.address.toMap()));
 
       emit(AddressSaved());
 
       // تحميل البيانات بعد الحفظ
-      add(LoadedAddresEvent());
+      add(LoadAddressEvent());
     } catch (e) {
-      emit(AddressError(message: e.toString()));
+      emit(AddressError(message: "Failed to save address"));
     }
   }
 }

@@ -23,75 +23,89 @@ class _UserProfilePageState extends State<UserProfilePage> {
             style: TextStyle(color: fourColor, fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
-      body: BlocBuilder<UserProfileBloc, UserProfileState>(
-        builder: (context, state) {
-          if (state is UserProfileLoading) {
-            return const Center(child: CircularProgressIndicator());
+      body: BlocListener<UserProfileBloc, UserProfileState>(
+        listener: (context, state) {
+          if (state is UserProfileUpdateSuccess) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text("Profile updated")));
           }
-
-          if (state is UserProfileLoaded) {
-            final user = state.user;
-
-            firstName.text = user["firstName"];
-            lastName.text = user["lastName"];
-            email.text = user["email"];
-            phone.text = user["phone"];
-
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        field("First Name", firstName),
-                        field("Last Name", lastName),
-                        field("Email", email),
-                        field("Phone", phone),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: fourColor,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14))),
-                    onPressed: () {
-                      context.read<UserProfileBloc>().add(
-                            UpdatuserProfile.UpdateUserProfile(
-                              firstName: firstName.text,
-                              lastName: lastName.text,
-                              email: email.text,
-                              phone: phone.text,
-                            ),
-                          );
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Profile Updated")),
-                      );
-                    },
-                    child: const Text(
-                      "Save Changes",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut();
-                      Navigator.pushReplacementNamed(context, "/login");
-                    },
-                    child: const Text("Log Out"),
-                  )
-                ],
-              ),
-            );
+          if (state is UserProfileFailed) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.message)));
           }
-
-          return const Center(child: Text("No user data found"));
         },
+        child: BlocBuilder<UserProfileBloc, UserProfileState>(
+          builder: (context, state) {
+            if (state is UserProfileLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state is UserProfileLoaded) {
+              final user = state.user;
+              firstName.text = user["firstName"];
+              lastName.text = user["lastName"];
+              email.text = user["email"];
+              phone.text = user["phone"];
+
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          field("First Name", firstName),
+                          field("Last Name", lastName),
+                          field("Email", email),
+                          field("Phone", phone),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: fourColor,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14))),
+                      onPressed: () {
+                       
+  context.read<UserProfileBloc>().add(
+    UpdateUserProfileEvent(
+      firstName: firstName.text.trim(),
+      lastName: lastName.text.trim(),
+      email: email.text.trim(),
+      phone: phone.text.trim(),
+    ),
+  );
+
+                      
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Profile Updated")),
+                        );
+                      },
+                      child: const Text(
+                        "Save Changes",
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                        Navigator.pushReplacementNamed(context, "/login");
+                      },
+                      child: const Text("Log Out"),
+                    )
+                  ],
+                ),
+              );
+            }
+
+            return const Center(child: Text("No user data found"));
+          },
+        ),
       ),
     );
   }

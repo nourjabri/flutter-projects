@@ -22,7 +22,7 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
         emit(UserProfileFailed(e.toString()));
       }
     });
-    on<UpdatuserProfile>((event, emit) async {
+    on<UpdateUserProfileEvent>((event, emit) async {
       emit(UserProfileLoading());
       try {
         final uid = FirebaseAuth.instance.currentUser!.uid;
